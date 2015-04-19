@@ -76,14 +76,14 @@
 				.attr("width", width)
 				.attr("height", height);
 				
-			d3.json("udalerriak.json", function(error, eh) {
+			d3.json("udalerriak-gipuzkoa.json", function(error, eh) {
 				
 				if (error) return console.error(error);
 				
 				console.log(eh);
 				
 				svg.selectAll(".unitateak")
-					.data(topojson.feature(eh, eh.objects.udalerriak).features)
+					.data(topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features)
 					.enter().append("path")
 					.attr("class", "unitateak")
 					.attr("id", function(d) { console.log(d); return "unitatea_" + d.properties.ad_kod; })
@@ -95,13 +95,13 @@
 				
 				// Eskualdeen arteko mugak (a !== b)
 				svg.append("path")
-					.datum(topojson.mesh(eh, eh.objects.udalerriak, function(a, b) { return a !== b; }))
+					.datum(topojson.mesh(eh, eh.objects["udalerriak-gipuzkoa"], function(a, b) { return a !== b; }))
 					.attr("d", path)
 					.attr("class", "eskualde-mugak");
 				
 				// Kanpo-mugak (a === b)
 				svg.append("path")
-					.datum(topojson.mesh(eh, eh.objects.udalerriak, function(a, b) { return a === b; }))
+					.datum(topojson.mesh(eh, eh.objects["udalerriak-gipuzkoa"], function(a, b) { return a === b; }))
 					.attr("d", path)
 					.attr("class", "kanpo-mugak");
 				
