@@ -154,7 +154,7 @@
 							   .attr("height", 200);
 
 				console.log(datuak);
-				emaitzak = [{
+				var emaitzak = [{
 						"BILDU": datuak["BILDU"]
 					}, {
 						"EAJ-PNV": datuak["EAJ-PNV"]
@@ -166,7 +166,7 @@
 				];
 
 				barrak.selectAll("rect")
-			   		  .data(datuak)
+			   		  .data(emaitzak)
 			   		  .enter()
 				      .append("rect")
 				   	  .attr("x", 0)
