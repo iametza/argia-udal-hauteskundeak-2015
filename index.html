@@ -28,6 +28,7 @@
 			#kontainerra {
 				margin: 0 auto 0 auto;
 				width: 1000px;
+				position: relative;
 			}
 
 			#mapa {
@@ -39,11 +40,18 @@
 			}
 
 			#unitatea-izena {
-				text-align: center;
+			    font-size: 20px;
+			    font-weight: bold;
+			    left: 400px;
+			    position: absolute;
+			    text-align: center;
+			    top: 10px;
 			}
 
 			#barrak {
 				display: inline-block;
+			    position: absolute;
+			    top: 350px;
 			}
 		</style>
 	</head>
@@ -148,7 +156,7 @@
 
 				d3.select("#barrak svg").remove();
 
-				var zabalera = 200;
+				var zabalera = 300;
 				var altuera = 200;
 				var barPadding = 10;
 
@@ -198,6 +206,17 @@
 					  })
 					  // Aurrerago alderdi bakoitzari bere kolorea jarri.
 					  .attr("fill", "teal");
+
+					barrak.selectAll("text")
+						  .data(emaitzak)
+						  .enter()
+						  .append("text")
+				      	  .attr("x", function(d, i) {
+						      return i * (zabalera / emaitzak.length);
+						  })
+				      	  .attr("y", 0)
+				      	  .attr("dy", ".75em")
+				       	  .text(function(d) { return d.alderdia; });
 			}
 
 		</script>
