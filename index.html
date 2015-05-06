@@ -93,6 +93,9 @@
 
 					//console.log(topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features);
 
+					// Emaitzak eta topoJSON-a bateratzeko ideia hemendik hartu dut, behar bada badago modu hobe bat.
+					// http://stackoverflow.com/questions/22994316/how-to-reference-csv-alongside-geojson-for-d3-rollover
+
 					// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
 					// i: indizea
 					emaitzak.forEach(function(d, i) {
@@ -107,7 +110,7 @@
 								//console.log(e.properties.ud_kodea);
 								//console.log(j);
 					            if (herrialde_kodeak[d["TH"]] + d["Udalherri-Kodea"] === e.properties.ud_kodea) {
-					                e.properties["BILDU"] = d["BILDU"];
+					                e.properties.emaitzak = d;
 					            }
 					        });
 
@@ -123,7 +126,7 @@
 						.attr("d", path)
 						.on("mouseover", function(d) {
 							//console.log(d);
-							d3.select("#unitatea-izena").text(d.properties.iz_euskal + " - BILDU: " + d.properties["BILDU"]);
+							d3.select("#unitatea-izena").text(d.properties.iz_euskal + " - BILDU: " + d.properties.emaitzak["BILDU"]);
 						});
 
 					// Eskualdeen arteko mugak (a !== b)
