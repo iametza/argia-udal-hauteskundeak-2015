@@ -76,25 +76,54 @@
 				.attr("width", width)
 				.attr("height", height);
 
+			var herrialde_kodeak = {
+				//"BIZKAIA": ,
+				"GIPUZKOA": 20
+			}
+
 			d3.csv("datuak/MunJ11_e.csv", function(emaitzak) {
 
-				console.log(emaitzak);
+				//console.log(emaitzak);
 
 				d3.json("udalerriak-gipuzkoa.json", function(error, eh) {
 
 					if (error) return console.error(error);
 
-					console.log(eh);
+					//console.log(eh);
+
+					//console.log(topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features);
+
+					// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
+					// i: indizea
+					emaitzak.forEach(function(d, i) {
+
+						if (d["TH"] === "GIPUZKOA") {
+
+							//console.log(herrialde_kodeak[d["TH"]] + d["Udalherri-Kodea"]);
+
+							// e: Object { type="Feature",  properties={...},  geometry={...}}
+							// j. indizea
+							topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features.forEach(function(e, j) {
+								//console.log(e.properties.ud_kodea);
+								//console.log(j);
+					            if (herrialde_kodeak[d["TH"]] + d["Udalherri-Kodea"] === e.properties.ud_kodea) {
+					                e.properties["BILDU"] = d["BILDU"];
+					            }
+					        });
+
+						}
+
+				    });
 
 					svg.selectAll(".unitateak")
 						.data(topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features)
 						.enter().append("path")
 						.attr("class", "unitateak")
-						.attr("id", function(d) { console.log(d); return "unitatea_" + d.properties.ad_kod; })
+						.attr("id", function(d) { return "unitatea_" + d.properties.ad_kod; })
 						.attr("d", path)
 						.on("mouseover", function(d) {
-							console.log(d);
-							d3.select("#unitatea-izena").text(d.properties.iz_euskal);
+							//console.log(d);
+							d3.select("#unitatea-izena").text(d.properties.iz_euskal + " - BILDU: " + d.properties["BILDU"]);
 						});
 
 					// Eskualdeen arteko mugak (a !== b)
