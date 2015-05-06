@@ -160,19 +160,19 @@
 				console.log(datuak);
 				var emaitzak = [{
 						alderdia: "BILDU",
-						botoak: datuak["BILDU"]
+						botoak: parseInt(datuak["BILDU"], 10)
 					}, {
 						alderdia: "EAJ-PNV",
-						botoak: datuak["EAJ-PNV"]
+						botoak: parseInt(datuak["EAJ-PNV"], 10)
 				    }, {
 						alderdia: "PSE-EE/PSOE",
-						botoak: datuak["PSE-EE/PSOE"]
+						botoak: parseInt(datuak["PSE-EE/PSOE"], 10)
 					}, {
 						alderdia: "PP",
-						botoak: datuak["PP"]
+						botoak: parseInt(datuak["PP"], 10)
 					}
 				];
-
+				
 				var altueraEskala = d3.scale.linear()
 									.domain([0,
 										 	 d3.max(emaitzak,
