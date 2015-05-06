@@ -186,7 +186,9 @@
 				      .attr("width", zabalera / emaitzak.length - barPadding)
 					  .attr("height", function(d, i) {
 					      return d.botoak;
-					  });
+					  })
+					  // Aurrerago alderdi bakoitzari bere kolorea jarri.
+					  .attr("fill", "teal");
 			}
 
 		</script>
