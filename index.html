@@ -173,6 +173,15 @@
 					}
 				];
 
+				var altueraEskala = d3.scale.linear()
+									.domain([0,
+										 	 d3.max(emaitzak,
+													function(d) {
+														return d.botoak;
+													})
+									])
+									.range([altuera, 0]);
+
 				barrak.selectAll("rect")
 			   		  .data(emaitzak)
 			   		  .enter()
@@ -181,11 +190,11 @@
 					      return i * (zabalera / emaitzak.length);
 					  })
 				      .attr("y", function(d, i) {
-						  return altuera - d.botoak;
+						  return altueraEskala(d.botoak);
 					  })
 				      .attr("width", zabalera / emaitzak.length - barPadding)
 					  .attr("height", function(d, i) {
-					      return d.botoak;
+					      return altuera - altueraEskala(d.botoak);
 					  })
 					  // Aurrerago alderdi bakoitzari bere kolorea jarri.
 					  .attr("fill", "teal");
