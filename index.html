@@ -42,7 +42,7 @@
 				text-align: center;
 			}
 
-			#tarta {
+			#barrak {
 				display: inline-block;
 			}
 		</style>
@@ -50,11 +50,9 @@
 
 	<body>
 		<div id="kontainerra">
+			<div id="unitatea-izena"></div>
 			<div id="mapa"></div>
-			<div id="datuak">
-				<div id="unitatea-izena"></div>
-				<div id="tarta"></div>
-			</div>
+			<div id="barrak"></div>
 		</div>
 
 		<script src="http://d3js.org/d3.v3.min.js"></script>
@@ -127,6 +125,7 @@
 						.on("mouseover", function(d) {
 							//console.log(d);
 							d3.select("#unitatea-izena").text(d.properties.iz_euskal + " - BILDU: " + d.properties.emaitzak["BILDU"]);
+							marraztuBarrak(d.properties.emaitzak);
 						});
 
 					// Eskualdeen arteko mugak (a !== b)
@@ -144,6 +143,34 @@
 				});
 
 			});
+
+			function marraztuBarrak(datuak) {
+
+				d3.select("#barrak svg").remove();
+
+				var barrak = d3.select('#barrak')
+							   .append("svg")
+							   .attr("width", 200)
+							   .attr("height", 200);
+
+				console.log(datuak);
+				datuak = [{
+					"BILDU": 1000
+					}, {
+					"EAJ-PNV": 1000
+					}
+				];
+
+				barrak.selectAll("rect")
+			   		  .data(datuak)
+			   		  .enter()
+				      .append("rect")
+				   	  .attr("x", 0)
+				      .attr("y", 0)
+				      .attr("width", 20)
+				      .attr("height", 100);
+			}
+
 		</script>
 	</body>
 </html>
