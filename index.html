@@ -237,7 +237,12 @@
 			   		  .enter()
 				      .append("rect")
 					  .attr("x", function(d, i) {
-					      return i * zabalera / barra_kopurua;
+						  var x = i * zabalera / barra_kopurua;
+
+						  if (i % 2 === 0) {
+							  x = x + barPadding;
+						  }
+					      return x;
 					  })
 				      .attr("y", function(d, i) {
 						  return altueraEskala(d.botoak);
