@@ -194,42 +194,38 @@
 							   .attr("height", altuera);
 
 
-				var emaitzak1 = [{
+				var emaitzak = [{
 						alderdia: "EAE / ANV",
 						botoak: parseInt(datuak1["EAE / ANV"], 10)
 					}, {
-						alderdia: "EAJ-PNV",
-						botoak: parseInt(datuak1["EAJ-PNV"], 10)
-					}, {
-						alderdia: "PSE-EE/PSOE",
-						botoak: parseInt(datuak1["PSE-EE/PSOE"], 10)
-					}, {
-						alderdia: "PP",
-						botoak: parseInt(datuak1["PP"], 10)
-					}
-				];
-
-				//console.log(datuak2);
-				var emaitzak2 = [{
 						alderdia: "BILDU",
 						botoak: parseInt(datuak2["BILDU"], 10)
+					}, {
+						alderdia: "EAJ-PNV",
+						botoak: parseInt(datuak1["EAJ-PNV"], 10)
 					}, {
 						alderdia: "EAJ-PNV",
 						botoak: parseInt(datuak2["EAJ-PNV"], 10)
 				    }, {
 						alderdia: "PSE-EE/PSOE",
+						botoak: parseInt(datuak1["PSE-EE/PSOE"], 10)
+					}, {
+						alderdia: "PSE-EE/PSOE",
 						botoak: parseInt(datuak2["PSE-EE/PSOE"], 10)
+					}, {
+						alderdia: "PP",
+						botoak: parseInt(datuak1["PP"], 10)
 					}, {
 						alderdia: "PP",
 						botoak: parseInt(datuak2["PP"], 10)
 					}
 				];
 
-				var barra_kopurua = emaitzak1.length + emaitzak2.length;
+				var barra_kopurua = emaitzak.length;
 
 				var altueraEskala = d3.scale.linear()
 									.domain([0,
-										 	 d3.max(emaitzak1,
+										 	 d3.max(emaitzak,
 													function(d) {
 														return d.botoak;
 													})
@@ -237,11 +233,11 @@
 									.range([altuera, 0]);
 
 				barrak.selectAll("rect")
-			   		  .data(emaitzak1)
+			   		  .data(emaitzak)
 			   		  .enter()
 				      .append("rect")
 					  .attr("x", function(d, i) {
-					      return 2 * i * (zabalera / barra_kopurua);
+					      return i * zabalera / barra_kopurua;
 					  })
 				      .attr("y", function(d, i) {
 						  return altueraEskala(d.botoak);
@@ -254,39 +250,11 @@
 					  .attr("fill", "teal");
 
 				barrak.selectAll("text")
-					  .data(emaitzak1)
+					  .data(emaitzak)
 					  .enter()
 					  .append("text")
 			      	  .attr("x", function(d, i) {
-					      return 2 * i * (zabalera / barra_kopurua);
-					  })
-			      	  .attr("y", 0)
-			      	  .attr("dy", ".75em")
-			       	  .text(function(d) { return d.alderdia; });
-
-				barrak.selectAll("rect")
-			   		  .data(emaitzak2)
-			   		  .enter()
-				      .append("rect")
-					  .attr("x", function(d, i) {
-					      return (2 * i + 1) * (zabalera / barra_kopurua);
-					  })
-				      .attr("y", function(d, i) {
-						  return altueraEskala(d.botoak);
-					  })
-				      .attr("width", zabalera / barra_kopurua - barPadding)
-					  .attr("height", function(d, i) {
-					      return altuera - altueraEskala(d.botoak);
-					  })
-					  // Aurrerago alderdi bakoitzari bere kolorea jarri.
-					  .attr("fill", "teal");
-
-				barrak.selectAll("text")
-					  .data(emaitzak2)
-					  .enter()
-					  .append("text")
-			      	  .attr("x", function(d, i) {
-					      return (2 * i + 1) * (zabalera / barra_kopurua);
+					      return i * zabalera / barra_kopurua;
 					  })
 			      	  .attr("y", 0)
 			      	  .attr("dy", ".75em")
