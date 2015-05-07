@@ -324,16 +324,22 @@
 						  }
 					      return x;
 					  })
-				      .attr("y", function(d, i) {
-						  return altueraEskala(d.botoak);
-					  })
+				      .attr("y", 0)
 				      .attr("width", zabalera / barra_kopurua - barPadding)
-					  .attr("height", function(d, i) {
-					      return altuera - altueraEskala(d.botoak);
-					  })
+					  .attr("height", altuera)
 					  .attr("fill", function(d, i) {
 						  return koloreak[i % 2];
+					  })
+					  .transition()
+      				  .delay(function(d, i) { return i * 100; })
+					  .duration(300)
+					  .attr("y", function(d, i) {
+						  return altueraEskala(d.botoak);
+					  })
+					  .attr("height", function(d, i) {
+					      return altuera - altueraEskala(d.botoak);
 					  });
+
 
 				/*barrak.selectAll("text")
 					  .data(emaitzak)
