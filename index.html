@@ -39,16 +39,28 @@
 			}
 
 			#datuak {
-				display: inline-block;
+				left: 700px;
+			    position: absolute;
+			    top: 135px;
+			}
+
+			#datuak table {
+			    border-collapse: collapse;
+			}
+
+			#datuak td, #datuak th {
+			    border: 1px solid #999;
+			    padding: 0.5rem;
+			    text-align: left;
 			}
 
 			#unitatea-izena {
-			    font-size: 20px;
+				font-size: 20px;
 			    font-weight: bold;
-			    left: 700px;
+			    left: 740px;
 			    position: absolute;
 			    text-align: center;
-			    top: 260px;
+			    top: 60px;
 			}
 
 			#barrak {
@@ -98,6 +110,34 @@
 			<img id="logo-eaj-pnv" src="img/eaj-pnv.png" />
 			<img id="logo-pse-ee" src="img/pse-ee.gif" />
 			<img id="logo-pp" src="img/pp.png" />
+			<div id="datuak">
+				<table>
+					<tr>
+						<td>&nbsp;</td>
+						<td>2007</td>
+						<td>2011</td>
+					</tr>
+					<tr>
+						<td>EH Bildu</td>
+						<td id="ehbildu-1"></td>
+						<td id="ehbildu-2"></td>
+					</tr>
+					<tr>
+						<td>EAJ-PNV</td>
+						<td id="eaj-pnv-1"></td>
+						<td id="eaj-pnv-2"></td>
+					</tr>
+					<tr>
+						<td>PSE-EE</td>
+						<td id="pse-ee-1"></td>
+						<td id="pse-ee-2"></td>
+					</tr>
+					<tr>
+						<td>PP</td>
+						<td id="pp-1"></td>
+						<td id="pp-2"></td>
+					</tr>
+				</table>
 		</div>
 
 		<script src="http://d3js.org/d3.v3.min.js"></script>
@@ -199,6 +239,7 @@
 								//console.log(d);
 								d3.select("#unitatea-izena").text(d.properties.iz_euskal);
 								marraztuBarrak(d.properties.emaitzak1, d.properties.emaitzak2);
+								beteTaula(d.properties.emaitzak1, d.properties.emaitzak2);
 							});
 
 						// Eskualdeen arteko mugak (a !== b)
@@ -307,6 +348,47 @@
 				*/
 			}
 
+			function beteTaula(datuak1, datuak2) {
+
+				var emaitzak = [{
+						alderdia: "EAE / ANV (Nuluak)",
+						botoak: parseInt(datuak1["Nulos"], 10)
+					}, {
+						alderdia: "BILDU",
+						botoak: parseInt(datuak2["BILDU"], 10)
+					}, {
+						alderdia: "EAJ-PNV",
+						botoak: parseInt(datuak1["EAJ-PNV"], 10)
+					}, {
+						alderdia: "EAJ-PNV",
+						botoak: parseInt(datuak2["EAJ-PNV"], 10)
+				    }, {
+						alderdia: "PSE-EE/PSOE",
+						botoak: parseInt(datuak1["PSE-EE/PSOE"], 10)
+					}, {
+						alderdia: "PSE-EE/PSOE",
+						botoak: parseInt(datuak2["PSE-EE/PSOE"], 10)
+					}, {
+						alderdia: "PP",
+						botoak: parseInt(datuak1["PP"], 10)
+					}, {
+						alderdia: "PP",
+						botoak: parseInt(datuak2["PP"], 10)
+					}
+				];
+
+				d3.select("#ehbildu-1").text(emaitzak[0].botoak);
+				d3.select("#ehbildu-2").text(emaitzak[1].botoak);
+
+				d3.select("#eaj-pnv-1").text(emaitzak[2].botoak);
+				d3.select("#eaj-pnv-2").text(emaitzak[3].botoak);
+
+				d3.select("#pse-ee-1").text(emaitzak[4].botoak);
+				d3.select("#pse-ee-2").text(emaitzak[5].botoak);
+
+				d3.select("#pp-1").text(emaitzak[6].botoak);
+				d3.select("#pp-2").text(emaitzak[7].botoak);
+			}
 		</script>
 	</body>
 </html>
