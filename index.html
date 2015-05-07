@@ -15,13 +15,15 @@
 			.eskualde-mugak {
 				fill: none;
 				stroke: #777;
-				stroke-dasharray: 2,2;
+				/*stroke-dasharray: 2,2;*/
+				stroke-width: 0.5px;
 				stroke-linejoin: round;
 			}
 
 			.kanpo-mugak {
 				fill: none;
 				stroke: #777;
+				stroke-width: 2px;
 				stroke-linejoin: round;
 			}
 
@@ -121,6 +123,8 @@
 				//"BIZKAIA": ,
 				"GIPUZKOA": 20
 			}
+
+			var koloreak = ["#5DA5DA", "#FAA43A"];
 
 			d3.csv("datuak/MunJ07_c.csv", function(emaitzak1) {
 
@@ -286,8 +290,9 @@
 					  .attr("height", function(d, i) {
 					      return altuera - altueraEskala(d.botoak);
 					  })
-					  // Aurrerago alderdi bakoitzari bere kolorea jarri.
-					  .attr("fill", "teal");
+					  .attr("fill", function(d, i) {
+						  return koloreak[i % 2];
+					  });
 
 				/*barrak.selectAll("text")
 					  .data(emaitzak)
