@@ -33,6 +33,7 @@
 
 			#mapa {
 				display: inline-block;
+				position: absolute;
 			}
 
 			#datuak {
@@ -42,17 +43,47 @@
 			#unitatea-izena {
 			    font-size: 20px;
 			    font-weight: bold;
-			    left: 400px;
+			    left: 700px;
 			    position: absolute;
 			    text-align: center;
-			    top: 10px;
+			    top: 260px;
 			}
 
 			#barrak {
 				display: inline-block;
+			    left: 600px;
 			    position: absolute;
-			    top: 350px;
+			    top: 330px;
 			}
+
+			#logo-ehbildu {
+			    left: 613px;
+			    position: absolute;
+			    top: 531px;
+			    width: 48px;
+			}
+
+			#logo-eaj-pnv {
+				left: 691px;
+			    position: absolute;
+			    top: 534px;
+			    width: 48px;
+			}
+
+			#logo-pse-ee {
+				left: 769px;
+			    position: absolute;
+			    top: 537px;
+			    width: 38px;
+			}
+
+			#logo-pp {
+				left: 844px;
+				position: absolute;
+				top: 537px;
+				width: 38px;
+			}
+
 		</style>
 	</head>
 
@@ -61,6 +92,10 @@
 			<div id="unitatea-izena"></div>
 			<div id="mapa"></div>
 			<div id="barrak"></div>
+			<img id="logo-ehbildu" src="img/ehbildu.jpg" />
+			<img id="logo-eaj-pnv" src="img/eaj-pnv.png" />
+			<img id="logo-pse-ee" src="img/pse-ee.gif" />
+			<img id="logo-pp" src="img/pp.png" />
 		</div>
 
 		<script src="http://d3js.org/d3.v3.min.js"></script>
@@ -254,7 +289,7 @@
 					  // Aurrerago alderdi bakoitzari bere kolorea jarri.
 					  .attr("fill", "teal");
 
-				barrak.selectAll("text")
+				/*barrak.selectAll("text")
 					  .data(emaitzak)
 					  .enter()
 					  .append("text")
@@ -264,6 +299,7 @@
 			      	  .attr("y", 0)
 			      	  .attr("dy", ".75em")
 			       	  .text(function(d) { return d.alderdia; });
+				*/
 			}
 
 		</script>
