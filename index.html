@@ -87,72 +87,100 @@
 				"GIPUZKOA": 20
 			}
 
-			d3.csv("datuak/MunJ11_e.csv", function(emaitzak) {
+			d3.csv("datuak/MunJ07_c.csv", function(emaitzak1) {
 
-				//console.log(emaitzak);
+				d3.csv("datuak/MunJ11_e.csv", function(emaitzak2) {
 
-				d3.json("udalerriak-gipuzkoa.json", function(error, eh) {
+					//console.log(emaitzak2);
 
-					if (error) return console.error(error);
+					d3.json("udalerriak-gipuzkoa.json", function(error, eh) {
 
-					//console.log(eh);
+						if (error) return console.error(error);
 
-					//console.log(topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features);
+						//console.log(eh);
 
-					// Emaitzak eta topoJSON-a bateratzeko ideia hemendik hartu dut, behar bada badago modu hobe bat.
-					// http://stackoverflow.com/questions/22994316/how-to-reference-csv-alongside-geojson-for-d3-rollover
+						//console.log(topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features);
 
-					// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
-					// i: indizea
-					emaitzak.forEach(function(d, i) {
+						// Emaitzak eta topoJSON-a bateratzeko ideia hemendik hartu dut, behar bada badago modu hobe bat.
+						// http://stackoverflow.com/questions/22994316/how-to-reference-csv-alongside-geojson-for-d3-rollover
 
-						if (d["TH"] === "GIPUZKOA") {
+						//console.log(emaitzak1);
 
-							//console.log(herrialde_kodeak[d["TH"]] + d["Udalherri-Kodea"]);
+						// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
+						// i: indizea
+						emaitzak1.forEach(function(d, i) {
 
-							// e: Object { type="Feature",  properties={...},  geometry={...}}
-							// j. indizea
-							topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features.forEach(function(e, j) {
-								//console.log(e.properties.ud_kodea);
-								//console.log(j);
-					            if (herrialde_kodeak[d["TH"]] + d["Udalherri-Kodea"] === e.properties.ud_kodea) {
-					                e.properties.emaitzak = d;
-					            }
-					        });
+							if (d["TH"] === "GIPUZKOA") {
 
-						}
+								//console.log(herrialde_kodeak[d["TH"]] + d["Cod.Municipio"]);
 
-				    });
+								// e: Object { type="Feature",  properties={...},  geometry={...}}
+								// j. indizea
+								topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features.forEach(function(e, j) {
+									//console.log(e.properties.ud_kodea);
+									//console.log(j);
+						            if (herrialde_kodeak[d["TH"]] + d["Cod.Municipio"] === e.properties.ud_kodea) {
+						                e.properties.emaitzak1 = d;
+						            }
+						        });
 
-					svg.selectAll(".unitateak")
-						.data(topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features)
-						.enter().append("path")
-						.attr("class", "unitateak")
-						.attr("id", function(d) { return "unitatea_" + d.properties.ad_kod; })
-						.attr("d", path)
-						.on("mouseover", function(d) {
-							//console.log(d);
-							d3.select("#unitatea-izena").text(d.properties.iz_euskal);
-							marraztuBarrak(d.properties.emaitzak);
-						});
+							}
 
-					// Eskualdeen arteko mugak (a !== b)
-					svg.append("path")
-						.datum(topojson.mesh(eh, eh.objects["udalerriak-gipuzkoa"], function(a, b) { return a !== b; }))
-						.attr("d", path)
-						.attr("class", "eskualde-mugak");
+					    });
 
-					// Kanpo-mugak (a === b)
-					svg.append("path")
-						.datum(topojson.mesh(eh, eh.objects["udalerriak-gipuzkoa"], function(a, b) { return a === b; }))
-						.attr("d", path)
-						.attr("class", "kanpo-mugak");
+						// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
+						// i: indizea
+						emaitzak2.forEach(function(d, i) {
+
+							if (d["TH"] === "GIPUZKOA") {
+
+								//console.log(herrialde_kodeak[d["TH"]] + d["Udalherri-Kodea"]);
+
+								// e: Object { type="Feature",  properties={...},  geometry={...}}
+								// j. indizea
+								topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features.forEach(function(e, j) {
+									//console.log(e.properties.ud_kodea);
+									//console.log(j);
+						            if (herrialde_kodeak[d["TH"]] + d["Udalherri-Kodea"] === e.properties.ud_kodea) {
+						                e.properties.emaitzak2 = d;
+						            }
+						        });
+
+							}
+
+					    });
+
+						svg.selectAll(".unitateak")
+							.data(topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features)
+							.enter().append("path")
+							.attr("class", "unitateak")
+							.attr("id", function(d) { return "unitatea_" + d.properties.ad_kod; })
+							.attr("d", path)
+							.on("mouseover", function(d) {
+								//console.log(d);
+								d3.select("#unitatea-izena").text(d.properties.iz_euskal);
+								marraztuBarrak(d.properties.emaitzak1, emaitzak2);
+							});
+
+						// Eskualdeen arteko mugak (a !== b)
+						svg.append("path")
+							.datum(topojson.mesh(eh, eh.objects["udalerriak-gipuzkoa"], function(a, b) { return a !== b; }))
+							.attr("d", path)
+							.attr("class", "eskualde-mugak");
+
+						// Kanpo-mugak (a === b)
+						svg.append("path")
+							.datum(topojson.mesh(eh, eh.objects["udalerriak-gipuzkoa"], function(a, b) { return a === b; }))
+							.attr("d", path)
+							.attr("class", "kanpo-mugak");
+
+					});
 
 				});
 
 			});
 
-			function marraztuBarrak(datuak) {
+			function marraztuBarrak(datuak1, datuak2) {
 
 				d3.select("#barrak svg").remove();
 
@@ -165,25 +193,41 @@
 							   .attr("width", zabalera)
 							   .attr("height", altuera);
 
-				//console.log(datuak);
-				var emaitzak = [{
-						alderdia: "BILDU",
-						botoak: parseInt(datuak["BILDU"], 10)
+				console.log(datuak1);
+				var emaitzak1 = [{
+						alderdia: "EAE / ANV",
+						botoak: parseInt(datuak1["EAE / ANV"], 10)
 					}, {
 						alderdia: "EAJ-PNV",
-						botoak: parseInt(datuak["EAJ-PNV"], 10)
-				    }, {
+						botoak: parseInt(datuak1["EAJ-PNV"], 10)
+					}, {
 						alderdia: "PSE-EE/PSOE",
-						botoak: parseInt(datuak["PSE-EE/PSOE"], 10)
+						botoak: parseInt(datuak1["PSE-EE/PSOE"], 10)
 					}, {
 						alderdia: "PP",
-						botoak: parseInt(datuak["PP"], 10)
+						botoak: parseInt(datuak1["PP"], 10)
+					}
+				];
+
+				//console.log(datuak2);
+				var emaitzak2 = [{
+						alderdia: "BILDU",
+						botoak: parseInt(datuak2["BILDU"], 10)
+					}, {
+						alderdia: "EAJ-PNV",
+						botoak: parseInt(datuak2["EAJ-PNV"], 10)
+				    }, {
+						alderdia: "PSE-EE/PSOE",
+						botoak: parseInt(datuak2["PSE-EE/PSOE"], 10)
+					}, {
+						alderdia: "PP",
+						botoak: parseInt(datuak2["PP"], 10)
 					}
 				];
 
 				var altueraEskala = d3.scale.linear()
 									.domain([0,
-										 	 d3.max(emaitzak,
+										 	 d3.max(emaitzak1,
 													function(d) {
 														return d.botoak;
 													})
@@ -191,16 +235,16 @@
 									.range([altuera, 0]);
 
 				barrak.selectAll("rect")
-			   		  .data(emaitzak)
+			   		  .data(emaitzak1)
 			   		  .enter()
 				      .append("rect")
 					  .attr("x", function(d, i) {
-					      return i * (zabalera / emaitzak.length);
+					      return i * (zabalera / emaitzak1.length);
 					  })
 				      .attr("y", function(d, i) {
 						  return altueraEskala(d.botoak);
 					  })
-				      .attr("width", zabalera / emaitzak.length - barPadding)
+				      .attr("width", zabalera / emaitzak1.length - barPadding)
 					  .attr("height", function(d, i) {
 					      return altuera - altueraEskala(d.botoak);
 					  })
@@ -208,11 +252,11 @@
 					  .attr("fill", "teal");
 
 					barrak.selectAll("text")
-						  .data(emaitzak)
+						  .data(emaitzak1)
 						  .enter()
 						  .append("text")
 				      	  .attr("x", function(d, i) {
-						      return i * (zabalera / emaitzak.length);
+						      return i * (zabalera / emaitzak1.length);
 						  })
 				      	  .attr("y", 0)
 				      	  .attr("dy", ".75em")
