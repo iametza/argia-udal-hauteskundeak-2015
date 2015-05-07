@@ -193,7 +193,7 @@
 							   .attr("width", zabalera)
 							   .attr("height", altuera);
 
-				console.log(datuak1);
+
 				var emaitzak1 = [{
 						alderdia: "EAE / ANV",
 						botoak: parseInt(datuak1["EAE / ANV"], 10)
@@ -225,6 +225,8 @@
 					}
 				];
 
+				var barra_kopurua = emaitzak1.length + emaitzak2.length;
+
 				var altueraEskala = d3.scale.linear()
 									.domain([0,
 										 	 d3.max(emaitzak1,
@@ -239,12 +241,12 @@
 			   		  .enter()
 				      .append("rect")
 					  .attr("x", function(d, i) {
-					      return i * (zabalera / emaitzak1.length);
+					      return 2 * i * (zabalera / barra_kopurua);
 					  })
 				      .attr("y", function(d, i) {
 						  return altueraEskala(d.botoak);
 					  })
-				      .attr("width", zabalera / emaitzak1.length - barPadding)
+				      .attr("width", zabalera / barra_kopurua - barPadding)
 					  .attr("height", function(d, i) {
 					      return altuera - altueraEskala(d.botoak);
 					  })
@@ -256,7 +258,7 @@
 						  .enter()
 						  .append("text")
 				      	  .attr("x", function(d, i) {
-						      return i * (zabalera / emaitzak1.length);
+						      return 2 * i * (zabalera / barra_kopurua);
 						  })
 				      	  .attr("y", 0)
 				      	  .attr("dy", ".75em")
