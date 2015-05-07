@@ -253,16 +253,16 @@
 					  // Aurrerago alderdi bakoitzari bere kolorea jarri.
 					  .attr("fill", "teal");
 
-					barrak.selectAll("text")
-						  .data(emaitzak1)
-						  .enter()
-						  .append("text")
-				      	  .attr("x", function(d, i) {
-						      return 2 * i * (zabalera / barra_kopurua);
-						  })
-				      	  .attr("y", 0)
-				      	  .attr("dy", ".75em")
-				       	  .text(function(d) { return d.alderdia; });
+				barrak.selectAll("text")
+					  .data(emaitzak1)
+					  .enter()
+					  .append("text")
+			      	  .attr("x", function(d, i) {
+					      return 2 * i * (zabalera / barra_kopurua);
+					  })
+			      	  .attr("y", 0)
+			      	  .attr("dy", ".75em")
+			       	  .text(function(d) { return d.alderdia; });
 			}
 
 		</script>
