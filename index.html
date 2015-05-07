@@ -159,7 +159,7 @@
 							.on("mouseover", function(d) {
 								//console.log(d);
 								d3.select("#unitatea-izena").text(d.properties.iz_euskal);
-								marraztuBarrak(d.properties.emaitzak1, emaitzak2);
+								marraztuBarrak(d.properties.emaitzak1, d.properties.emaitzak2);
 							});
 
 						// Eskualdeen arteko mugak (a !== b)
@@ -259,6 +259,34 @@
 					  .append("text")
 			      	  .attr("x", function(d, i) {
 					      return 2 * i * (zabalera / barra_kopurua);
+					  })
+			      	  .attr("y", 0)
+			      	  .attr("dy", ".75em")
+			       	  .text(function(d) { return d.alderdia; });
+
+				barrak.selectAll("rect")
+			   		  .data(emaitzak2)
+			   		  .enter()
+				      .append("rect")
+					  .attr("x", function(d, i) {
+					      return (2 * i + 1) * (zabalera / barra_kopurua);
+					  })
+				      .attr("y", function(d, i) {
+						  return altueraEskala(d.botoak);
+					  })
+				      .attr("width", zabalera / barra_kopurua - barPadding)
+					  .attr("height", function(d, i) {
+					      return altuera - altueraEskala(d.botoak);
+					  })
+					  // Aurrerago alderdi bakoitzari bere kolorea jarri.
+					  .attr("fill", "teal");
+
+				barrak.selectAll("text")
+					  .data(emaitzak2)
+					  .enter()
+					  .append("text")
+			      	  .attr("x", function(d, i) {
+					      return (2 * i + 1) * (zabalera / barra_kopurua);
 					  })
 			      	  .attr("y", 0)
 			      	  .attr("dy", ".75em")
