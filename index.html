@@ -166,6 +166,8 @@
 
 			var koloreak = ["#5DA5DA", "#FAA43A"];
 
+			var aurreko_y = [];
+
 			d3.csv("datuak/MunJ07_c.csv", function(emaitzak1) {
 
 				d3.csv("datuak/MunJ11_e.csv", function(emaitzak2) {
@@ -324,7 +326,12 @@
 						  }
 					      return x;
 					  })
-				      .attr("y", 0)
+				      .attr("y", function(d, i) {
+						  if (aurreko_y[i]) {
+							  return aurreko_y[i];
+						  }
+						  return 0;
+					  })
 				      .attr("width", zabalera / barra_kopurua - barPadding)
 					  .attr("height", altuera)
 					  .attr("fill", function(d, i) {
@@ -334,6 +341,7 @@
       				  .delay(function(d, i) { return i * 100; })
 					  .duration(300)
 					  .attr("y", function(d, i) {
+						  aurreko_y[i] = altueraEskala(d.botoak);
 						  return altueraEskala(d.botoak);
 					  })
 					  .attr("height", function(d, i) {
