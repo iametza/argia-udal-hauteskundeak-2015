@@ -275,7 +275,6 @@
 							   .attr("width", zabalera)
 							   .attr("height", altuera);
 
-
 				var emaitzak = [{
 						alderdia: "EAE / ANV (Nuluak)",
 						botoak: parseInt(datuak1["Nulos"], 10)
@@ -305,6 +304,8 @@
 
 				var barra_kopurua = emaitzak.length;
 
+				var barra_zabalera = zabalera / barra_kopurua;
+
 				var altueraEskala = d3.scale.linear()
 									.domain([0,
 										 	 d3.max(emaitzak,
@@ -319,7 +320,7 @@
 			   		  .enter()
 				      .append("rect")
 					  .attr("x", function(d, i) {
-						  var x = i * zabalera / barra_kopurua;
+						  var x = i * barra_zabalera;
 
 						  if (i % 2 === 0) {
 							  x = x + barPadding;
@@ -332,7 +333,7 @@
 						  }
 						  return 0;
 					  })
-				      .attr("width", zabalera / barra_kopurua - barPadding)
+				      .attr("width", barra_zabalera - barPadding)
 					  .attr("height", altuera)
 					  .attr("fill", function(d, i) {
 						  return koloreak[i % 2];
