@@ -342,13 +342,14 @@
       				  .delay(function(d, i) { return i * 100; })
 					  .duration(300)
 					  .attr("y", function(d, i) {
-						  aurreko_y[i] = altueraEskala(d.botoak);
-						  return altueraEskala(d.botoak);
+						  var y = altueraEskala(d.botoak);
+						  aurreko_y[i] = y;
+						  return y;
 					  })
 					  .attr("height", function(d, i) {
 					      return altuera - altueraEskala(d.botoak);
 					  });
-					  
+
 			}
 
 			function beteTaula(datuak1, datuak2) {
