@@ -183,10 +183,22 @@
 						},
 						eskala: 30000
 					}
+				},
+				"NAFARROA": {
+					th: "NAFARROA",
+					kodea: "31",
+					json_izena: "udalerriak-nafarroa",
+					proiekzioa: {
+						erdia: {
+							lat: -1.75,
+							lng: 42.62
+						},
+						eskala: 17900
+					}
 				}
 			}
 
-			var hautatutako_herrialdea = "ARABA-ÁLAVA";
+			var hautatutako_herrialdea = "NAFARROA";
 
 			var width = 700,
 				height = 600;
@@ -217,7 +229,7 @@
 
 						if (error) return console.error(error);
 
-						//console.log(eh);
+						console.log(eh);
 
 						//console.log(topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features);
 
