@@ -112,33 +112,33 @@
 			<img id="logo-pse-ee" src="img/pse-ee.gif" />
 			<img id="logo-pp" src="img/pp.png" />
 			<div id="datuak">
-				<table>
-					<tr>
-						<td>&nbsp;</td>
-						<td>2007</td>
-						<td>2011</td>
-					</tr>
-					<tr>
-						<td>EH Bildu</td>
-						<td id="ehbildu-1"></td>
-						<td id="ehbildu-2"></td>
-					</tr>
-					<tr>
-						<td>EAJ-PNV</td>
-						<td id="eaj-pnv-1"></td>
-						<td id="eaj-pnv-2"></td>
-					</tr>
-					<tr>
-						<td>PSE-EE</td>
-						<td id="pse-ee-1"></td>
-						<td id="pse-ee-2"></td>
-					</tr>
-					<tr>
-						<td>PP</td>
-						<td id="pp-1"></td>
-						<td id="pp-2"></td>
-					</tr>
-				</table>
+				<table id="datuak-taula">
+                    <!--<tr>
+                        <td>&nbsp;</td>
+                        <td>2007</td>
+                        <td>2011</td>
+                    </tr>
+                    <tr>
+                        <td>EH Bildu</td>
+                        <td id="ehbildu-1"></td>
+                        <td id="ehbildu-2"></td>
+                    </tr>
+                    <tr>
+                        <td>EAJ-PNV</td>
+                        <td id="eaj-pnv-1"></td>
+                        <td id="eaj-pnv-2"></td>
+                    </tr>
+                    <tr>
+                        <td>PSE-EE</td>
+                        <td id="pse-ee-1"></td>
+                        <td id="pse-ee-2"></td>
+                    </tr>
+                    <tr>
+                        <td>PP</td>
+                        <td id="pp-1"></td>
+                        <td id="pp-2"></td>
+                    </tr>-->
+                </table>
 		</div>
 
 		<script src="http://d3js.org/d3.v3.min.js"></script>
@@ -458,7 +458,7 @@
 
 			function beteTaula(datuak1, datuak2) {
 
-				var emaitzak = [{
+				/*var emaitzak = [{
 						alderdia: "EAE / ANV (Nuluak)",
 						botoak: parseInt(datuak1["Nulos"], 10)
 					}, {
@@ -495,7 +495,18 @@
 				d3.select("#pse-ee-2").text(emaitzak[5].botoak);
 
 				d3.select("#pp-1").text(emaitzak[6].botoak);
-				d3.select("#pp-2").text(emaitzak[7].botoak);
+				d3.select("#pp-2").text(emaitzak[7].botoak);*/
+                
+                var katea = "";
+                
+                for (var i = 0; i < datuak1.alderdiak.length; i++) {
+                    console.log(datuak1.alderdiak[i].izena);
+                    console.log(datuak1.alderdiak[i].botoak);
+                    katea = katea + "<tr><td>" + datuak1.alderdiak[i].izena + "</td><td>" + datuak1.alderdiak[i].botoak + "</td></tr>";
+                }
+                
+                document.getElementById("datuak-taula").innerHTML = katea;
+                
 			}
 		</script>
 	</body>
