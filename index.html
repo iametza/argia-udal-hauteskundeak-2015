@@ -6,11 +6,11 @@
 		<title>Euskal Herria - udalerriak</title>
 		<style>
 			.unitateak {
-				fill: #DDDDCC;
+				/*fill: #DDDDCC;*/
 			}
 
 			.unitateak:hover {
-				fill: #e50000
+				stroke: #e50000
 			}
 
 			.eskualde-mugak {
@@ -145,7 +145,22 @@
 		<script src="http://d3js.org/topojson.v1.min.js"></script>
 
 		<script>
-
+            
+            var alderdiak = {
+                "BILDU": {
+                    kolorea: "#b3c801"
+                },
+                "EAJ-PNV": {
+                    kolorea: "#008336"
+                },
+                "PSE-EE/PSOE": {
+                    kolorea: "#ed1b24"
+                },
+                "PP": {
+                    kolorea: "#ed1b24"
+                }
+            }
+            
 			var herrialdeak = {
 				"GIPUZKOA": {
 					th: "GIPUZKOA",
@@ -398,6 +413,17 @@
 						svg.selectAll(".unitateak")
 							.data(topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features)
 							.enter().append("path")
+                            .attr("fill", function(d) {
+                                // Herriko alderdi bozkatuenaren kolorea.
+                                if (d.properties.emaitzak2) {
+                                                                        
+                                    return alderdiak[d.properties.emaitzak2.alderdiak[0].izena].kolorea;
+                                    
+                                }
+                                
+                                return "#cccccc";
+                                
+                            })
 							.attr("class", "unitateak")
 							.attr("id", function(d) { return "unitatea_" + d.properties.ad_kod; })
 							.attr("d", path)
