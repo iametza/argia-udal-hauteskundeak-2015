@@ -223,20 +223,12 @@
 
 				d3.csv("datuak/MunJ11_e.csv", function(emaitzak2) {
 
-					//console.log(emaitzak2);
-
 					d3.json(herrialdeak[hautatutako_herrialdea].json_izena + ".json", function(error, eh) {
 
 						if (error) return console.error(error);
 
-						console.log(eh);
-
-						//console.log(topojson.feature(eh, eh.objects["udalerriak-gipuzkoa"]).features);
-
 						// Emaitzak eta topoJSON-a bateratzeko ideia hemendik hartu dut, behar bada badago modu hobe bat.
 						// http://stackoverflow.com/questions/22994316/how-to-reference-csv-alongside-geojson-for-d3-rollover
-
-						//console.log(emaitzak1);
 
 						// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
 						// i: indizea
@@ -244,13 +236,10 @@
 
 							if (d["TH"] === herrialdeak[hautatutako_herrialdea].th) {
 
-								//console.log(herrialde_kodeak[d["TH"]] + d["Cod.Municipio"]);
-
 								// e: Object { type="Feature",  properties={...},  geometry={...}}
 								// j. indizea
 								topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
-									//console.log(e.properties.ud_kodea);
-									//console.log(j);
+									
 						            if (herrialdeak[d["TH"]].kodea + d["Cod.Municipio"] === e.properties.ud_kodea) {
                                         
                                         // Beharrezko datuak gordetzen hasi.
@@ -318,16 +307,14 @@
 
 							if (d["TH"] === herrialdeak[hautatutako_herrialdea].th) {
 
-								//console.log(herrialde_kodeak[d["TH"]] + d["Udalherri-Kodea"]);
-
 								// e: Object { type="Feature",  properties={...},  geometry={...}}
 								// j. indizea
 								topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
-									//console.log(e.properties.ud_kodea);
-									//console.log(j);
+									
 						            if (herrialdeak[d["TH"]].kodea + d["Udalherri-Kodea"] === e.properties.ud_kodea) {
 						                e.properties.emaitzak2 = d;
 						            }
+                                    
 						        });
 
 							}
@@ -341,11 +328,12 @@
 							.attr("id", function(d) { return "unitatea_" + d.properties.ad_kod; })
 							.attr("d", path)
 							.on("mouseover", function(d) {
-								console.log(d);
+								
 								d3.select("#unitatea-izena").text(d.properties.iz_euskal);
-								marraztuBarrak(d.properties.emaitzak1, d.properties.emaitzak2);
+								
+                                marraztuBarrak(d.properties.emaitzak1, d.properties.emaitzak2);
 								beteTaula(d.properties.emaitzak1, d.properties.emaitzak2);
-                                console.log(d.properties.emaitzak1.alderdiak);
+                                
 							});
 
 						// Eskualdeen arteko mugak (a !== b)
@@ -500,8 +488,6 @@
                 var katea = "";
                 
                 for (var i = 0; i < datuak1.alderdiak.length; i++) {
-                    console.log(datuak1.alderdiak[i].izena);
-                    console.log(datuak1.alderdiak[i].botoak);
                     
                     // Botoak lortu dituzten alderdiak bakarrik bistaratu.
                     if (datuak1.alderdiak[i].botoak > 0) {
