@@ -502,7 +502,11 @@
                 for (var i = 0; i < datuak1.alderdiak.length; i++) {
                     console.log(datuak1.alderdiak[i].izena);
                     console.log(datuak1.alderdiak[i].botoak);
-                    katea = katea + "<tr><td>" + datuak1.alderdiak[i].izena + "</td><td>" + datuak1.alderdiak[i].botoak + "</td></tr>";
+                    
+                    // Botoak lortu dituzten alderdiak bakarrik bistaratu.
+                    if (datuak1.alderdiak[i].botoak > 0) {
+                        katea = katea + "<tr><td>" + datuak1.alderdiak[i].izena + "</td><td>" + datuak1.alderdiak[i].botoak + "</td></tr>";
+                    }
                 }
                 
                 document.getElementById("datuak-taula").innerHTML = katea;
