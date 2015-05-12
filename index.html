@@ -242,13 +242,13 @@
 									
 						            if (herrialdeak[d["TH"]].kodea + d["Cod.Municipio"] === e.properties.ud_kodea) {
                                         
-                                        // Beharrezko datuak gordetzen hasi.
+                                        // Beharrezko datuak garbitu eta prestatu.
                                         e.properties.emaitzak1 = {
                                             "abstentzioak": d["Abstenciones"],
                                             "zuriak": d["Blancos"],
-                                            "nuluak": d["Nulos"],
-                                            "zentsoa": d["Censo"],
-                                            "botoemaileak": d["Votantes"],
+                                            "baliogabeak": d["Nulos"],
+                                            "errolda": d["Censo"],
+                                            "hautesleak": d["Votantes"],
                                             "botoak_alderdiei": d["Votos Cand."],
                                             "baliozkoak": d["Válidos"],
                                             "alderdiak": [{
@@ -312,7 +312,75 @@
 								topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
 									
 						            if (herrialdeak[d["TH"]].kodea + d["Udalherri-Kodea"] === e.properties.ud_kodea) {
-						                e.properties.emaitzak2 = d;
+						                
+                                        // 2011 euskaraz
+                                        // TH,Eskualde-Kodea,Udalherri-Kodea,EREMU,Errolda,Hautesleak,Baliogabeak,Baleko,Zuriak,Hautagaien B.,Abstentzioa,
+                                        // EAJ-PNV, PP, EB-B, EKA, PH, PSE-EE/PSOE, BERDEAK-LV, PLAZANDREOK, ARALAR, PUM+J, UPYD, BILDU, H1!, PLIN, PSYV
+                                        
+                                        // Beharrezko datuak garbitu eta prestatu.
+                                        e.properties.emaitzak2 = {
+                                            "abstentzioak": d["Abstentzioa"],
+                                            "zuriak": d["Zuriak"],
+                                            "baliogabeak": d["Baliogabeak"],
+                                            "errolda": d["Errolda"],
+                                            "hautesleak": d["Hautesleak"],
+                                            "botoak_alderdiei": d["Hautagaien B."],
+                                            "baliozkoak": d["Baleko"],
+                                            "alderdiak": [{
+                                                    "izena": "EAJ-PNV",
+                                                    "botoak": parseInt(d["EAJ-PNV"], 10) || 0
+                                                }, {
+                                                    "izena": "PP",
+                                                    "botoak": parseInt(d["PP"], 10) || 0
+                                                }, {
+                                                    "izena": "EB-B",
+                                                    "botoak": parseInt(d["EB-B"], 10) || 0
+                                                }, {
+                                                    "izena": "EKA",
+                                                    "botoak": parseInt(d["EKA"], 10) || 0
+                                                }, {
+                                                    "izena": "PH",
+                                                    "botoak": parseInt(d["PH"], 10) || 0
+                                                }, {
+                                                    "izena": "PSE-EE/PSOE",
+                                                    "botoak": parseInt(d["PSE-EE/PSOE"], 10) || 0
+                                                }, {
+                                                    "izena": "BERDEAK-LV",
+                                                    "botoak": parseInt(d["BERDEAK-LV"], 10) || 0
+                                                }, {
+                                                    "izena": "PLAZANDREOK",
+                                                    "botoak": parseInt(d["PLAZANDREOK"], 10) || 0
+                                                }, {
+                                                    "izena": "ARALAR",
+                                                    "botoak": parseInt(d["ARALAR"], 10) || 0
+                                                }, {
+                                                    "izena": "PUM+J",
+                                                    "botoak": parseInt(d["PUM+J"], 10) || 0
+                                                }, {
+                                                    "izena": "UPYD",
+                                                    "botoak": parseInt(d["UPYD"], 10) || 0
+                                                }, {
+                                                    "izena": "BILDU",
+                                                    "botoak": parseInt(d["BILDU"], 10) || 0
+                                                }, {
+                                                    "izena": "H1!",
+                                                    "botoak": parseInt(d["H1!"], 10) || 0
+                                                }, {
+                                                    "izena": "PLIN",
+                                                    "botoak": parseInt(d["PLIN"], 10) || 0
+                                                }, {
+                                                    "izena": "PSYV",
+                                                    "botoak": parseInt(d["PSYV"], 10) || 0
+                                                }
+                                            ]
+                                        };
+                                        
+                                        e.properties.emaitzak2.alderdiak.sort(function(a, b) {
+                                            
+                                            return a.botoak < b.botoak;
+                                            
+                                        });
+                                        
 						            }
                                     
 						        });
@@ -368,7 +436,7 @@
 							   .attr("height", altuera);
 
 				var emaitzak = [{
-						alderdia: "EAE / ANV (Nuluak)",
+						alderdia: "EAE / ANV (baliogabeak)",
 						botoak: parseInt(datuak1["Nulos"], 10)
 					}, {
 						alderdia: "BILDU",
@@ -447,7 +515,7 @@
 			function beteTaula(datuak1, datuak2) {
 
 				/*var emaitzak = [{
-						alderdia: "EAE / ANV (Nuluak)",
+						alderdia: "EAE / ANV (baliogabeak)",
 						botoak: parseInt(datuak1["Nulos"], 10)
 					}, {
 						alderdia: "BILDU",
