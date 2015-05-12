@@ -294,6 +294,9 @@
                                             
                                         });
                                         
+                                        // Propietate gordinak ere gorde.
+                                        e.properties.gordinak1 = d;
+                                        
 						            }
 						        });
 
@@ -381,6 +384,9 @@
                                             
                                         });
                                         
+                                        // Propietate gordinak ere gorde.
+                                        e.properties.gordinak2 = d;
+                                        
 						            }
                                     
 						        });
@@ -399,7 +405,7 @@
 								
 								d3.select("#unitatea-izena").text(d.properties.iz_euskal);
 								
-                                marraztuBarrak(d.properties.emaitzak1, d.properties.emaitzak2);
+                                marraztuBarrak(d.properties.gordinak1, d.properties.gordinak2);
 								beteTaula(d.properties.emaitzak1, d.properties.emaitzak2);
                                 
 							});
