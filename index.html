@@ -198,7 +198,7 @@
 				}
 			}
 
-			var hautatutako_herrialdea = "NAFARROA";
+			var hautatutako_herrialdea = "GIPUZKOA";
 
 			var width = 700,
 				height = 600;
@@ -252,7 +252,59 @@
 									//console.log(e.properties.ud_kodea);
 									//console.log(j);
 						            if (herrialdeak[d["TH"]].kodea + d["Cod.Municipio"] === e.properties.ud_kodea) {
-						                e.properties.emaitzak1 = d;
+                                        
+                                        // Beharrezko datuak gordetzen hasi.
+                                        e.properties.emaitzak1 = {
+                                            "abstentzioak": d["Abstenciones"],
+                                            "zuriak": d["Blancos"],
+                                            "nuluak": d["Nulos"],
+                                            "zentsoa": d["Censo"],
+                                            "botoemaileak": d["Votantes"],
+                                            "botoak_alderdiei": d["Votos Cand."],
+                                            "baliozkoak": d["Válidos"],
+                                            "alderdiak": [{
+                                                    "izena": "EAJ-PNV",
+                                                    "botoak": parseInt(d["EAJ-PNV"], 10) || 0
+                                                }, {
+                                                    "izena": "PP",
+                                                    "botoak": parseInt(d["PP"], 10) || 0
+                                                }, {
+                                                    "izena": "EA",
+                                                    "botoak": parseInt(d["EA"], 10) || 0
+                                                }, {
+                                                    "izena": "EKA",
+                                                    "botoak": parseInt(d["EKA"], 10) || 0
+                                                }, {
+                                                    "izena": "PH",
+                                                    "botoak": parseInt(d["PH"], 10) || 0
+                                                }, {
+                                                    "izena": "EAE / ANV",
+                                                    "botoak": parseInt(d["EAE / ANV"], 10) || 0
+                                                }, {
+                                                    "izena": "PSE-EE/PSOE",
+                                                    "botoak": parseInt(d["PSE-EE/PSOE"], 10) || 0
+                                                }, {
+                                                    "izena": "BERDEAK-LV",
+                                                    "botoak": parseInt(d["BERDEAK-LV"], 10) || 0
+                                                }, {
+                                                    "izena": "PLAZANDREOK",
+                                                    "botoak": parseInt(d["PLAZANDREOK"], 10) || 0
+                                                }, {
+                                                    "izena": "INNDE",
+                                                    "botoak": parseInt(d["INNDE"], 10) || 0
+                                                }, {
+                                                    "izena": "EB / ARALAR",
+                                                    "botoak": parseInt(d["EB / ARALAR"], 10) || 0
+                                                }
+                                            ]
+                                        };
+                                        
+                                        e.properties.emaitzak1.alderdiak.sort(function(a, b) {
+                                            
+                                            return a.botoak < b.botoak;
+                                            
+                                        });
+                                        
 						            }
 						        });
 
@@ -289,10 +341,11 @@
 							.attr("id", function(d) { return "unitatea_" + d.properties.ad_kod; })
 							.attr("d", path)
 							.on("mouseover", function(d) {
-								//console.log(d);
+								console.log(d);
 								d3.select("#unitatea-izena").text(d.properties.iz_euskal);
 								marraztuBarrak(d.properties.emaitzak1, d.properties.emaitzak2);
 								beteTaula(d.properties.emaitzak1, d.properties.emaitzak2);
+                                console.log(d.properties.emaitzak1.alderdiak);
 							});
 
 						// Eskualdeen arteko mugak (a !== b)
