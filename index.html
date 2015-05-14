@@ -252,73 +252,38 @@
 					// i: indizea
 					emaitzak.udalerriak.forEach(function(d, i) {
 
-						if (d["TH"] === herrialdeak[hautatutako_herrialdea].th) {
-
-							// e: Object { type="Feature",  properties={...},  geometry={...}}
-							// j. indizea
-							topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
+						// e: Object { type="Feature",  properties={...},  geometry={...}}
+						// j. indizea
+						topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
+							
+							if (d.kodea.toString().length === 1) {
+								d.kodea = "00" + d.kodea;
+							} else if (d.kodea.toString().length === 2) {
+								d.kodea = "0" + d.kodea;
+							}
+							
+							if (herrialdeak[hautatutako_herrialdea].kodea + d.kodea === e.properties.ud_kodea) {
 								
-								if (herrialdeak[d["TH"]].kodea + d["Cod.Municipio"] === e.properties.ud_kodea) {
+								// Beharrezko datuak garbitu eta prestatu.
+								e.properties.emaitzak = {
+									//"abstentzioak": d["Abstenciones"],
+									"zuriak": d["zuriak"],
+									"baliogabeak": d["baliogabeak"],
+									"errolda": d["zentsua"],
+									"hautesleak": d["hautesleak"],
+									//"botoak_alderdiei": d["Votos Cand."],
+									"baliozkoak": d["baliozkoak"],
+									"alderdiak": d["emaitzak"]
+								};
+								
+								e.properties.emaitzak.alderdiak.sort(function(a, b) {
 									
-									// Beharrezko datuak garbitu eta prestatu.
-									e.properties.emaitzak = {
-										"abstentzioak": d["Abstenciones"],
-										"zuriak": d["Blancos"],
-										"baliogabeak": d["Nulos"],
-										"errolda": d["Censo"],
-										"hautesleak": d["Votantes"],
-										"botoak_alderdiei": d["Votos Cand."],
-										"baliozkoak": d["Válidos"],
-										"alderdiak": [{
-												"izena": "EAJ-PNV",
-												"botoak": parseInt(d["EAJ-PNV"], 10) || 0
-											}, {
-												"izena": "PP",
-												"botoak": parseInt(d["PP"], 10) || 0
-											}, {
-												"izena": "EA",
-												"botoak": parseInt(d["EA"], 10) || 0
-											}, {
-												"izena": "EKA",
-												"botoak": parseInt(d["EKA"], 10) || 0
-											}, {
-												"izena": "PH",
-												"botoak": parseInt(d["PH"], 10) || 0
-											}, {
-												"izena": "EAE / ANV",
-												"botoak": parseInt(d["EAE / ANV"], 10) || 0
-											}, {
-												"izena": "PSE-EE/PSOE",
-												"botoak": parseInt(d["PSE-EE/PSOE"], 10) || 0
-											}, {
-												"izena": "BERDEAK-LV",
-												"botoak": parseInt(d["BERDEAK-LV"], 10) || 0
-											}, {
-												"izena": "PLAZANDREOK",
-												"botoak": parseInt(d["PLAZANDREOK"], 10) || 0
-											}, {
-												"izena": "INNDE",
-												"botoak": parseInt(d["INNDE"], 10) || 0
-											}, {
-												"izena": "EB / ARALAR",
-												"botoak": parseInt(d["EB / ARALAR"], 10) || 0
-											}
-										]
-									};
+									return a.botoak < b.botoak;
 									
-									e.properties.emaitzak.alderdiak.sort(function(a, b) {
-										
-										return a.botoak < b.botoak;
-										
-									});
-									
-									// Propietate gordinak ere gorde.
-									e.properties.gordinak1 = d;
-									
-								}
-							});
-
-						}
+								});
+								
+							}
+						});
 
 					});
 					
@@ -343,7 +308,7 @@
 							
 							d3.select("#unitatea-izena").text(d.properties.iz_euskal);
 							
-							beteTaula(d.properties.emaitzak, d.properties.emaitzak2);
+							beteTaula(d.properties.emaitzak);
 							
 						});
 
@@ -363,54 +328,15 @@
 
 			});
 			
-			function beteTaula(datuak1, datuak2) {
-
-				/*var emaitzak = [{
-						alderdia: "EAE / ANV (baliogabeak)",
-						botoak: parseInt(datuak1["Nulos"], 10)
-					}, {
-						alderdia: "BILDU",
-						botoak: parseInt(datuak2["BILDU"], 10)
-					}, {
-						alderdia: "EAJ-PNV",
-						botoak: parseInt(datuak1["EAJ-PNV"], 10)
-					}, {
-						alderdia: "EAJ-PNV",
-						botoak: parseInt(datuak2["EAJ-PNV"], 10)
-				    }, {
-						alderdia: "PSE-EE/PSOE",
-						botoak: parseInt(datuak1["PSE-EE/PSOE"], 10)
-					}, {
-						alderdia: "PSE-EE/PSOE",
-						botoak: parseInt(datuak2["PSE-EE/PSOE"], 10)
-					}, {
-						alderdia: "PP",
-						botoak: parseInt(datuak1["PP"], 10)
-					}, {
-						alderdia: "PP",
-						botoak: parseInt(datuak2["PP"], 10)
-					}
-				];
-
-				d3.select("#ehbildu-1").text(emaitzak[0].botoak);
-				d3.select("#ehbildu-2").text(emaitzak[1].botoak);
-
-				d3.select("#eaj-pnv-1").text(emaitzak[2].botoak);
-				d3.select("#eaj-pnv-2").text(emaitzak[3].botoak);
-
-				d3.select("#pse-ee-1").text(emaitzak[4].botoak);
-				d3.select("#pse-ee-2").text(emaitzak[5].botoak);
-
-				d3.select("#pp-1").text(emaitzak[6].botoak);
-				d3.select("#pp-2").text(emaitzak[7].botoak);*/
+			function beteTaula(datuak) {
                 
                 var katea = "";
-                
-                for (var i = 0; i < datuak1.alderdiak.length; i++) {
+                console.log(datuak.alderdiak);
+                for (var i = 0; i < datuak.alderdiak.length; i++) {
                     
                     // Botoak lortu dituzten alderdiak bakarrik bistaratu.
-                    if (datuak1.alderdiak[i].botoak > 0) {
-                        katea = katea + "<tr><td>" + datuak1.alderdiak[i].izena + "</td><td>" + datuak1.alderdiak[i].botoak + "</td></tr>";
+                    if (datuak.alderdiak[i].botoak > 0) {
+                        katea = katea + "<tr><td>" + datuak.alderdiak[i].izena + "</td><td>" + datuak.alderdiak[i].botoak + "</td></tr>";
                     }
                 }
                 
