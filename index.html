@@ -235,316 +235,134 @@
 
 			var aurreko_y = [];
 
-			d3.csv("datuak/MunJ07_c.csv", function(emaitzak1) {
+			d3.json("datuak/" + herrialdeak[hautatutako_herrialdea].json_izena + ".json", function(error, emaitzak) {
+				
+				console.log(emaitzak);
+				
+				if (error) return console.error(error);
+				
+				d3.json(herrialdeak[hautatutako_herrialdea].json_izena + ".json", function(error, eh) {
 
-				d3.csv("datuak/MunJ11_e.csv", function(emaitzak2) {
+					if (error) return console.error(error);
 
-					d3.json(herrialdeak[hautatutako_herrialdea].json_izena + ".json", function(error, eh) {
+					// Emaitzak eta topoJSON-a bateratzeko ideia hemendik hartu dut, behar bada badago modu hobe bat.
+					// http://stackoverflow.com/questions/22994316/how-to-reference-csv-alongside-geojson-for-d3-rollover
 
-						if (error) return console.error(error);
+					// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
+					// i: indizea
+					emaitzak.udalerriak.forEach(function(d, i) {
 
-						// Emaitzak eta topoJSON-a bateratzeko ideia hemendik hartu dut, behar bada badago modu hobe bat.
-						// http://stackoverflow.com/questions/22994316/how-to-reference-csv-alongside-geojson-for-d3-rollover
+						if (d["TH"] === herrialdeak[hautatutako_herrialdea].th) {
 
-						// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
-						// i: indizea
-						emaitzak1.forEach(function(d, i) {
-
-							if (d["TH"] === herrialdeak[hautatutako_herrialdea].th) {
-
-								// e: Object { type="Feature",  properties={...},  geometry={...}}
-								// j. indizea
-								topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
-									
-						            if (herrialdeak[d["TH"]].kodea + d["Cod.Municipio"] === e.properties.ud_kodea) {
-                                        
-                                        // Beharrezko datuak garbitu eta prestatu.
-                                        e.properties.emaitzak1 = {
-                                            "abstentzioak": d["Abstenciones"],
-                                            "zuriak": d["Blancos"],
-                                            "baliogabeak": d["Nulos"],
-                                            "errolda": d["Censo"],
-                                            "hautesleak": d["Votantes"],
-                                            "botoak_alderdiei": d["Votos Cand."],
-                                            "baliozkoak": d["Válidos"],
-                                            "alderdiak": [{
-                                                    "izena": "EAJ-PNV",
-                                                    "botoak": parseInt(d["EAJ-PNV"], 10) || 0
-                                                }, {
-                                                    "izena": "PP",
-                                                    "botoak": parseInt(d["PP"], 10) || 0
-                                                }, {
-                                                    "izena": "EA",
-                                                    "botoak": parseInt(d["EA"], 10) || 0
-                                                }, {
-                                                    "izena": "EKA",
-                                                    "botoak": parseInt(d["EKA"], 10) || 0
-                                                }, {
-                                                    "izena": "PH",
-                                                    "botoak": parseInt(d["PH"], 10) || 0
-                                                }, {
-                                                    "izena": "EAE / ANV",
-                                                    "botoak": parseInt(d["EAE / ANV"], 10) || 0
-                                                }, {
-                                                    "izena": "PSE-EE/PSOE",
-                                                    "botoak": parseInt(d["PSE-EE/PSOE"], 10) || 0
-                                                }, {
-                                                    "izena": "BERDEAK-LV",
-                                                    "botoak": parseInt(d["BERDEAK-LV"], 10) || 0
-                                                }, {
-                                                    "izena": "PLAZANDREOK",
-                                                    "botoak": parseInt(d["PLAZANDREOK"], 10) || 0
-                                                }, {
-                                                    "izena": "INNDE",
-                                                    "botoak": parseInt(d["INNDE"], 10) || 0
-                                                }, {
-                                                    "izena": "EB / ARALAR",
-                                                    "botoak": parseInt(d["EB / ARALAR"], 10) || 0
-                                                }
-                                            ]
-                                        };
-                                        
-                                        e.properties.emaitzak1.alderdiak.sort(function(a, b) {
-                                            
-                                            return a.botoak < b.botoak;
-                                            
-                                        });
-                                        
-                                        // Propietate gordinak ere gorde.
-                                        e.properties.gordinak1 = d;
-                                        
-						            }
-						        });
-
-							}
-
-					    });
-
-						// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
-						// i: indizea
-						emaitzak2.forEach(function(d, i) {
-
-							if (d["TH"] === herrialdeak[hautatutako_herrialdea].th) {
-
-								// e: Object { type="Feature",  properties={...},  geometry={...}}
-								// j. indizea
-								topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
-									
-						            if (herrialdeak[d["TH"]].kodea + d["Udalherri-Kodea"] === e.properties.ud_kodea) {
-						                
-                                        // 2011 euskaraz
-                                        // TH,Eskualde-Kodea,Udalherri-Kodea,EREMU,Errolda,Hautesleak,Baliogabeak,Baleko,Zuriak,Hautagaien B.,Abstentzioa,
-                                        // EAJ-PNV, PP, EB-B, EKA, PH, PSE-EE/PSOE, BERDEAK-LV, PLAZANDREOK, ARALAR, PUM+J, UPYD, BILDU, H1!, PLIN, PSYV
-                                        
-                                        // Beharrezko datuak garbitu eta prestatu.
-                                        e.properties.emaitzak2 = {
-                                            "abstentzioak": d["Abstentzioa"],
-                                            "zuriak": d["Zuriak"],
-                                            "baliogabeak": d["Baliogabeak"],
-                                            "errolda": d["Errolda"],
-                                            "hautesleak": d["Hautesleak"],
-                                            "botoak_alderdiei": d["Hautagaien B."],
-                                            "baliozkoak": d["Baleko"],
-                                            "alderdiak": [{
-                                                    "izena": "EAJ-PNV",
-                                                    "botoak": parseInt(d["EAJ-PNV"], 10) || 0
-                                                }, {
-                                                    "izena": "PP",
-                                                    "botoak": parseInt(d["PP"], 10) || 0
-                                                }, {
-                                                    "izena": "EB-B",
-                                                    "botoak": parseInt(d["EB-B"], 10) || 0
-                                                }, {
-                                                    "izena": "EKA",
-                                                    "botoak": parseInt(d["EKA"], 10) || 0
-                                                }, {
-                                                    "izena": "PH",
-                                                    "botoak": parseInt(d["PH"], 10) || 0
-                                                }, {
-                                                    "izena": "PSE-EE/PSOE",
-                                                    "botoak": parseInt(d["PSE-EE/PSOE"], 10) || 0
-                                                }, {
-                                                    "izena": "BERDEAK-LV",
-                                                    "botoak": parseInt(d["BERDEAK-LV"], 10) || 0
-                                                }, {
-                                                    "izena": "PLAZANDREOK",
-                                                    "botoak": parseInt(d["PLAZANDREOK"], 10) || 0
-                                                }, {
-                                                    "izena": "ARALAR",
-                                                    "botoak": parseInt(d["ARALAR"], 10) || 0
-                                                }, {
-                                                    "izena": "PUM+J",
-                                                    "botoak": parseInt(d["PUM+J"], 10) || 0
-                                                }, {
-                                                    "izena": "UPYD",
-                                                    "botoak": parseInt(d["UPYD"], 10) || 0
-                                                }, {
-                                                    "izena": "BILDU",
-                                                    "botoak": parseInt(d["BILDU"], 10) || 0
-                                                }, {
-                                                    "izena": "H1!",
-                                                    "botoak": parseInt(d["H1!"], 10) || 0
-                                                }, {
-                                                    "izena": "PLIN",
-                                                    "botoak": parseInt(d["PLIN"], 10) || 0
-                                                }, {
-                                                    "izena": "PSYV",
-                                                    "botoak": parseInt(d["PSYV"], 10) || 0
-                                                }
-                                            ]
-                                        };
-                                        
-                                        e.properties.emaitzak2.alderdiak.sort(function(a, b) {
-                                            
-                                            return a.botoak < b.botoak;
-                                            
-                                        });
-                                        
-                                        // Propietate gordinak ere gorde.
-                                        e.properties.gordinak2 = d;
-                                        
-						            }
-                                    
-						        });
-
-							}
-
-					    });
-
-						svg.selectAll(".unitateak")
-							.data(topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features)
-							.enter().append("path")
-                            .attr("fill", function(d) {
-                                // Herriko alderdi bozkatuenaren kolorea.
-                                if (d.properties.emaitzak2) {
-                                                                        
-                                    return alderdiak[d.properties.emaitzak2.alderdiak[0].izena].kolorea;
-                                    
-                                }
-                                
-                                return "#cccccc";
-                                
-                            })
-							.attr("class", "unitateak")
-							.attr("id", function(d) { return "unitatea_" + d.properties.ad_kod; })
-							.attr("d", path)
-							.on("mouseover", function(d) {
+							// e: Object { type="Feature",  properties={...},  geometry={...}}
+							// j. indizea
+							topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
 								
-								d3.select("#unitatea-izena").text(d.properties.iz_euskal);
-								
-                                marraztuBarrak(d.properties.gordinak1, d.properties.gordinak2);
-								beteTaula(d.properties.emaitzak1, d.properties.emaitzak2);
-                                
+								if (herrialdeak[d["TH"]].kodea + d["Cod.Municipio"] === e.properties.ud_kodea) {
+									
+									// Beharrezko datuak garbitu eta prestatu.
+									e.properties.emaitzak = {
+										"abstentzioak": d["Abstenciones"],
+										"zuriak": d["Blancos"],
+										"baliogabeak": d["Nulos"],
+										"errolda": d["Censo"],
+										"hautesleak": d["Votantes"],
+										"botoak_alderdiei": d["Votos Cand."],
+										"baliozkoak": d["Válidos"],
+										"alderdiak": [{
+												"izena": "EAJ-PNV",
+												"botoak": parseInt(d["EAJ-PNV"], 10) || 0
+											}, {
+												"izena": "PP",
+												"botoak": parseInt(d["PP"], 10) || 0
+											}, {
+												"izena": "EA",
+												"botoak": parseInt(d["EA"], 10) || 0
+											}, {
+												"izena": "EKA",
+												"botoak": parseInt(d["EKA"], 10) || 0
+											}, {
+												"izena": "PH",
+												"botoak": parseInt(d["PH"], 10) || 0
+											}, {
+												"izena": "EAE / ANV",
+												"botoak": parseInt(d["EAE / ANV"], 10) || 0
+											}, {
+												"izena": "PSE-EE/PSOE",
+												"botoak": parseInt(d["PSE-EE/PSOE"], 10) || 0
+											}, {
+												"izena": "BERDEAK-LV",
+												"botoak": parseInt(d["BERDEAK-LV"], 10) || 0
+											}, {
+												"izena": "PLAZANDREOK",
+												"botoak": parseInt(d["PLAZANDREOK"], 10) || 0
+											}, {
+												"izena": "INNDE",
+												"botoak": parseInt(d["INNDE"], 10) || 0
+											}, {
+												"izena": "EB / ARALAR",
+												"botoak": parseInt(d["EB / ARALAR"], 10) || 0
+											}
+										]
+									};
+									
+									e.properties.emaitzak.alderdiak.sort(function(a, b) {
+										
+										return a.botoak < b.botoak;
+										
+									});
+									
+									// Propietate gordinak ere gorde.
+									e.properties.gordinak1 = d;
+									
+								}
 							});
 
-						// Eskualdeen arteko mugak (a !== b)
-						svg.append("path")
-							.datum(topojson.mesh(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena], function(a, b) { return a !== b; }))
-							.attr("d", path)
-							.attr("class", "eskualde-mugak");
-
-						// Kanpo-mugak (a === b)
-						svg.append("path")
-							.datum(topojson.mesh(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena], function(a, b) { return a === b; }))
-							.attr("d", path)
-							.attr("class", "kanpo-mugak");
+						}
 
 					});
+					
+					svg.selectAll(".unitateak")
+						.data(topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features)
+						.enter().append("path")
+						.attr("fill", function(d) {
+							// Herriko alderdi bozkatuenaren kolorea.
+							if (d.properties.emaitzak2) {
+																	
+								return alderdiak[d.properties.emaitzak2.alderdiak[0].izena].kolorea;
+								
+							}
+							
+							return "#cccccc";
+							
+						})
+						.attr("class", "unitateak")
+						.attr("id", function(d) { return "unitatea_" + d.properties.ad_kod; })
+						.attr("d", path)
+						.on("mouseover", function(d) {
+							
+							d3.select("#unitatea-izena").text(d.properties.iz_euskal);
+							
+							beteTaula(d.properties.emaitzak, d.properties.emaitzak2);
+							
+						});
+
+					// Eskualdeen arteko mugak (a !== b)
+					svg.append("path")
+						.datum(topojson.mesh(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena], function(a, b) { return a !== b; }))
+						.attr("d", path)
+						.attr("class", "eskualde-mugak");
+
+					// Kanpo-mugak (a === b)
+					svg.append("path")
+						.datum(topojson.mesh(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena], function(a, b) { return a === b; }))
+						.attr("d", path)
+						.attr("class", "kanpo-mugak");
 
 				});
 
 			});
-
-			function marraztuBarrak(datuak1, datuak2) {
-
-				d3.select("#barrak svg").remove();
-
-				var zabalera = 300;
-				var altuera = 200;
-				var barPadding = 10;
-
-				var barrak = d3.select('#barrak')
-							   .append("svg")
-							   .attr("width", zabalera)
-							   .attr("height", altuera);
-
-				var emaitzak = [{
-						alderdia: "EAE / ANV (baliogabeak)",
-						botoak: parseInt(datuak1["Nulos"], 10)
-					}, {
-						alderdia: "BILDU",
-						botoak: parseInt(datuak2["BILDU"], 10)
-					}, {
-						alderdia: "EAJ-PNV",
-						botoak: parseInt(datuak1["EAJ-PNV"], 10)
-					}, {
-						alderdia: "EAJ-PNV",
-						botoak: parseInt(datuak2["EAJ-PNV"], 10)
-				    }, {
-						alderdia: "PSE-EE/PSOE",
-						botoak: parseInt(datuak1["PSE-EE/PSOE"], 10)
-					}, {
-						alderdia: "PSE-EE/PSOE",
-						botoak: parseInt(datuak2["PSE-EE/PSOE"], 10)
-					}, {
-						alderdia: "PP",
-						botoak: parseInt(datuak1["PP"], 10)
-					}, {
-						alderdia: "PP",
-						botoak: parseInt(datuak2["PP"], 10)
-					}
-				];
-
-				var barra_kopurua = emaitzak.length;
-
-				var barra_zabalera = zabalera / barra_kopurua;
-
-				var altueraEskala = d3.scale.linear()
-									.domain([0,
-										 	 d3.max(emaitzak,
-													function(d) {
-														return d.botoak;
-													})
-									])
-									.range([altuera, 0]);
-
-				barrak.selectAll("rect")
-			   		  .data(emaitzak)
-			   		  .enter()
-				      .append("rect")
-					  .attr("x", function(d, i) {
-						  var x = i * barra_zabalera;
-
-						  if (i % 2 === 0) {
-							  x = x + barPadding;
-						  }
-					      return x;
-					  })
-				      .attr("y", function(d, i) {
-						  if (aurreko_y[i]) {
-							  return aurreko_y[i];
-						  }
-						  return 0;
-					  })
-				      .attr("width", barra_zabalera - barPadding)
-					  .attr("height", altuera)
-					  .attr("fill", function(d, i) {
-						  return koloreak[i % 2];
-					  })
-					  .transition()
-      				  .delay(function(d, i) { return i * 100; })
-					  .duration(300)
-					  .attr("y", function(d, i) {
-						  var y = altueraEskala(d.botoak);
-						  aurreko_y[i] = y;
-						  return y;
-					  })
-					  .attr("height", function(d, i) {
-					      return altuera - altueraEskala(d.botoak);
-					  });
-
-			}
-
+			
 			function beteTaula(datuak1, datuak2) {
 
 				/*var emaitzak = [{
