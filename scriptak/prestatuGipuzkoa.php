@@ -109,23 +109,25 @@ while ($lerroa = fgets($fh)) {
     
     if ($lerro_kont == 1) {
         
-        file_put_contents("gipuzkoa-udalerriak-osoa.json", lerrotikJSONera($lerroa));
+        file_put_contents("udalerriak-gipuzkoa-osoa.json", lerrotikJSONera($lerroa));
         
         $katea = '{"udalerriak":[';
         
-    } else if ($lerro_kont >= 2 && $lerro_kont < 91) {
+    } else if ($lerro_kont >= 2 && $lerro_kont < 90) {
         
         $katea .= lerrotikJSONera($lerroa) . ',';
+        
+    }  else if ($lerro_kont == 90) {
+        
+        $katea .= lerrotikJSONera($lerroa) . ']}';
+        
+        file_put_contents("udalerriak-gipuzkoa.json", $katea);
         
     }
     
     $lerro_kont++;
     
 }
-
-$katea .= ']}';
-        
-file_put_contents("gipuzkoa-udalerriak.json", $katea);
 
 fclose($fh);
 
