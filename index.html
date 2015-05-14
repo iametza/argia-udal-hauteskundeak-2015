@@ -278,7 +278,7 @@
 								
 								e.properties.emaitzak.alderdiak.sort(function(a, b) {
 									
-									return a.botoak < b.botoak;
+									return parseInt(a.botoak, 10) < parseInt(b.botoak, 10);
 									
 								});
 								
