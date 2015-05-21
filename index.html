@@ -30,19 +30,22 @@
 
 			#kontainerra {
 				margin: 0 auto 0 auto;
-				width: 985px;
+				width: 685px;
 				position: relative;
+				border: 1px solid black;
+				height: 800px;
 			}
 
 			#mapa {
 				display: inline-block;
 				position: absolute;
+				border: 1px solid black;
 			}
 
 			#datuak {
-				left: 700px;
-			    position: absolute;
-			    top: 135px;
+				left: 450px;
+				position: absolute;
+				top: 194px;
 			}
 
 			#datuak table {
@@ -57,11 +60,11 @@
 
 			#unitatea-izena {
 				font-size: 20px;
-			    font-weight: bold;
-			    left: 740px;
-			    position: absolute;
-			    text-align: center;
-			    top: 60px;
+				font-weight: bold;
+				left: 522px;
+				position: absolute;
+				text-align: center;
+				top: 160px;
 			}
 
 			#barrak {
@@ -169,10 +172,10 @@
 					json_izena: "udalerriak-gipuzkoa",
 					proiekzioa: {
 						erdia: {
-							lat: -2.2,
-							lng: 43.15
+							lat: -2.17,
+							lng: 43.01
 						},
-						eskala: 42000
+						eskala: 32000
 					}
 
 				},
@@ -216,7 +219,7 @@
 
 			var hautatutako_herrialdea = "GIPUZKOA";
 
-			var width = 700,
+			var width = 500,
 				height = 600;
 
 			var projection = d3.geo.mercator()
