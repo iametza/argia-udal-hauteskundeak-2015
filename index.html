@@ -197,10 +197,10 @@
 					json_izena: "udalerriak-araba",
 					proiekzioa: {
 						erdia: {
-							lat: -2.65,
-							lng: 42.85
+							lat: -2.76,
+							lng: 42.76
 						},
-						eskala: 30000
+						eskala: 27000
 					}
 				},
 				"NAFARROA": {
@@ -217,7 +217,7 @@
 				}
 			}
 
-			var hautatutako_herrialdea = "GIPUZKOA";
+			var hautatutako_herrialdea = "ARABA-ÁLAVA";
 
 			var width = 500,
 				height = 600;
@@ -238,14 +238,14 @@
 
 			var aurreko_y = [];
 
-			d3.json("datuak/" + herrialdeak[hautatutako_herrialdea].json_izena + ".json", function(error, emaitzak) {
-				
+			//d3.json("datuak/" + herrialdeak[hautatutako_herrialdea].json_izena + ".json", function(error, emaitzak) {
+			d3.json("datuak/udalerriak-gipuzkoa.json", function(error, emaitzak) {
 				console.log(emaitzak);
 				
 				if (error) return console.error(error);
 				
 				d3.json(herrialdeak[hautatutako_herrialdea].json_izena + ".json", function(error, eh) {
-
+	
 					if (error) return console.error(error);
 
 					// Emaitzak eta topoJSON-a bateratzeko ideia hemendik hartu dut, behar bada badago modu hobe bat.
