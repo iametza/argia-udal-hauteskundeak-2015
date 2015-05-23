@@ -43,8 +43,19 @@
 				position: absolute;
 				border: 1px solid black;
 			}
-
+			
+			.datuak-goiko-taula {
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			.datuak-taula {
+				margin-top: 10px;
+			}
+			
 			.datuak {
+				font-family: Arial,Helvetica,sans-serif !important;
+				font-size: 16px;
 				left: 450px;
 				position: absolute;
 				top: 194px;
@@ -86,7 +97,7 @@
 			<div id="unitatea-izena"></div>
 			<div id="mapa"></div>
 			<div class="datuak">
-				<table>
+				<table class="datuak-goiko-taula">
 					<tr>
 						<td>Ordua</td>
 						<td class="eguneraketa-ordua"></td>
@@ -255,7 +266,7 @@
 				}
 			}
 
-			var hautatutako_herrialdea = "araba";
+			var hautatutako_herrialdea = "bizkaia";
 
 			var width = 500,
 				height = 600;
