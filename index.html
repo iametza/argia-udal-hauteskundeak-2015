@@ -32,7 +32,7 @@
 
 			#kontainerra {
 				margin: 0 auto 0 auto;
-				width: 685px;
+				width: 680px;
 				position: relative;
 				border: 1px solid black;
 				height: 800px;
@@ -45,11 +45,10 @@
 				display: block;
 				margin-left: auto;
 				margin-right: auto;
-				width: 585px;
 			}
 			
 			.datuak {
-				width: 585px;
+				width: 580px;
 				margin-left: auto;
 				margin-right: auto;
 			}
@@ -59,6 +58,7 @@
 				font-weight: bold;
 				text-align: center;
 				margin-bottom: 10px;
+				margin-top: 10px;
 			}
 			
 			.datuak-taula {
@@ -72,7 +72,7 @@
 			
 			.emaitzak-taula {
 				float: right;
-				margin-right: 75px;
+				margin-right: 50px;
 			}
 			
 			.emaitzak-taula .izena {
@@ -221,7 +221,9 @@
 							lng: 43.01
 						},
 						eskala: 32000
-					}
+					},
+					altuera: 500,
+					zabalera: 680
 
 				},
 				"bizkaia": {
@@ -234,10 +236,12 @@
 					proiekzioa: {
 						erdia: {
 							lat: -2.93,
-							lng: 43.02
+							lng: 43.22
 						},
-						eskala: 27100
-					}
+						eskala: 37000
+					},
+					altuera: 430,
+					zabalera: 680
 				},
 				"araba": {
 					th: "ARABA-ÁLAVA",
@@ -273,8 +277,8 @@
 
 			var hautatutako_herrialdea = "bizkaia";
 
-			var width = 585,
-				height = 600;
+			var width = herrialdeak[hautatutako_herrialdea].zabalera,
+				height = herrialdeak[hautatutako_herrialdea].altuera;
 
 			var projection = d3.geo.mercator()
 				.center([herrialdeak[hautatutako_herrialdea].proiekzioa.erdia.lat, herrialdeak[hautatutako_herrialdea].proiekzioa.erdia.lng])
