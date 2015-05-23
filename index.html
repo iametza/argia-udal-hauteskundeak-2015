@@ -211,7 +211,8 @@
 				"gipuzkoa": {
 					th: "GIPUZKOA",
 					kodea: 20,
-					datuakJSON: "datuak/gipuzkoa-udalak-2015.json",
+					datuakJSON_1: "datuak/gipuzkoa-udalak-2011.json",
+					datuakJSON_2: "datuak/gipuzkoa-udalak-2015.json",
 					json_izena: "udalerriak-gipuzkoa",
 					topoJSON: "topoJSON/udalerriak-gipuzkoa.json",
 					proiekzioa: {
@@ -226,7 +227,8 @@
 				"bizkaia": {
 					th: "BIZKAIA",
 					kodea: 48,
-					datuakJSON: "datuak/bizkaia-udalak-2015.json",
+					datuakJSON_1: "datuak/bizkaia-udalak-2011.json",
+					datuakJSON_2: "datuak/bizkaia-udalak-2015.json",
 					json_izena: "udalerriak-bizkaia",
 					topoJSON: "topoJSON/udalerriak-bizkaia.json",
 					proiekzioa: {
@@ -240,7 +242,8 @@
 				"araba": {
 					th: "ARABA-ÁLAVA",
 					kodea: "01",
-					datuakJSON: "datuak/araba-udalak-2015.json",
+					datuakJSON_1: "datuak/araba-udalak-2011.json",
+					datuakJSON_2: "datuak/araba-udalak-2015.json",
 					json_izena: "udalerriak-araba",
 					topoJSON: "topoJSON/udalerriak-araba.json",
 					proiekzioa: {
@@ -254,7 +257,8 @@
 				"nafarroa": {
 					th: "NAFARROA",
 					kodea: "31",
-					datuakJSON: "datuak/nafarroa-udalak-2015.json",
+					datuakJSON_1: "datuak/nafarroa-udalak-2011.json",
+					datuakJSON_2: "datuak/nafarroa-udalak-2015.json",
 					json_izena: "udalerriak-nafarroa",
 					topoJSON: "topoJSON/udalerriak-nafarroa.json",
 					proiekzioa: {
@@ -288,95 +292,122 @@
 
 			var aurreko_y = [];
 
-			//d3.json("datuak/" + herrialdeak[hautatutako_herrialdea].json_izena + ".json", function(error, emaitzak) {
-			d3.json(herrialdeak[hautatutako_herrialdea].datuakJSON, function(error, emaitzak2) {
+			d3.json(herrialdeak[hautatutako_herrialdea].datuakJSON_1, function(error, emaitzak1) {
 				
-				console.log(emaitzak2);
-				
-				if (error) return console.error(error);
-				
-				d3.json(herrialdeak[hautatutako_herrialdea].topoJSON, function(error, eh) {
+				d3.json(herrialdeak[hautatutako_herrialdea].datuakJSON_2, function(error, emaitzak2) {
+					
+					console.log(emaitzak2);
 					
 					if (error) return console.error(error);
 					
-					// Emaitzak eta topoJSON-a bateratzeko ideia hemendik hartu dut, behar bada badago modu hobe bat.
-					// http://stackoverflow.com/questions/22994316/how-to-reference-csv-alongside-geojson-for-d3-rollover
-					
-					// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
-					// i: indizea
-					emaitzak2.udalerriak.forEach(function(d, i) {
+					d3.json(herrialdeak[hautatutako_herrialdea].topoJSON, function(error, eh) {
 						
-						// e: Object { type="Feature",  properties={...},  geometry={...}}
-						// j. indizea
-						topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
+						if (error) return console.error(error);
+						
+						// Emaitzak eta topoJSON-a bateratzeko ideia hemendik hartu dut, behar bada badago modu hobe bat.
+						// http://stackoverflow.com/questions/22994316/how-to-reference-csv-alongside-geojson-for-d3-rollover
+						
+						// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
+						// i: indizea
+						emaitzak1.udalerriak.forEach(function(d, i) {
 							
-							if (d.kodea.toString().length === 1) {
-								d.kodea = "00" + d.kodea;
-							} else if (d.kodea.toString().length === 2) {
-								d.kodea = "0" + d.kodea;
-							}
+							// e: Object { type="Feature",  properties={...},  geometry={...}}
+							// j. indizea
+							topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
+								
+								if (d.kodea.toString().length === 1) {
+									d.kodea = "00" + d.kodea;
+								} else if (d.kodea.toString().length === 2) {
+									d.kodea = "0" + d.kodea;
+								}
+								
+								if (herrialdeak[hautatutako_herrialdea].kodea + d.kodea === e.properties.ud_kodea) {
+									
+									// Beharrezko datuak garbitu eta prestatu.
+									e.properties.emaitzak1 = d;
+									
+								}
+							});
 							
-							if (herrialdeak[hautatutako_herrialdea].kodea + d.kodea === e.properties.ud_kodea) {
-								
-								// Beharrezko datuak garbitu eta prestatu.
-								e.properties.emaitzak2 = d;
-								
-							}
 						});
-
-					});
-					
-					svg.selectAll(".unitateak")
-						.data(topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features)
-						.enter().append("path")
-						.attr("fill", function(d) {
-							// Herriko alderdi bozkatuenaren kolorea.
-							if (d.properties.emaitzak2) {
+						
+						// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
+						// i: indizea
+						emaitzak2.udalerriak.forEach(function(d, i) {
+							
+							// e: Object { type="Feature",  properties={...},  geometry={...}}
+							// j. indizea
+							topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
 								
-								// Hautagaiarentzat kolore bat definitu badugu...
-								if (alderdiak[d.properties.emaitzak2.ordena[0]]) {
+								if (d.kodea.toString().length === 1) {
+									d.kodea = "00" + d.kodea;
+								} else if (d.kodea.toString().length === 2) {
+									d.kodea = "0" + d.kodea;
+								}
+								
+								if (herrialdeak[hautatutako_herrialdea].kodea + d.kodea === e.properties.ud_kodea) {
 									
-									return alderdiak[d.properties.emaitzak2.ordena[0]].kolorea;
+									// Beharrezko datuak garbitu eta prestatu.
+									e.properties.emaitzak2 = d;
 									
-								} else {
+								}
+							});
+							
+						});
+						
+						svg.selectAll(".unitateak")
+							.data(topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features)
+							.enter().append("path")
+							.attr("fill", function(d) {
+								// Herriko alderdi bozkatuenaren kolorea.
+								if (d.properties.emaitzak2) {
 									
-									return "#cccccc";
+									// Hautagaiarentzat kolore bat definitu badugu...
+									if (alderdiak[d.properties.emaitzak2.ordena[0]]) {
+										
+										return alderdiak[d.properties.emaitzak2.ordena[0]].kolorea;
+										
+									} else {
+										
+										return "#cccccc";
+										
+									}
 									
 								}
 								
-							}
-							
-							// Emaitzarik ez badago...
-							return "#ffffff";
-							
-						})
-						.attr("class", "unitateak")
-						.attr("id", function(d) { return "unitatea_" + d.properties.ad_kod; })
-						.attr("d", path)
-						.on("mouseover", function(d) {
-							
-							d3.select("#unitatea-izena").text(d.properties.iz_euskal);
-							
-							beteTaula(d.properties.emaitzak2, d.properties.emaitzak2);
-							
-							beteDatuak(d.properties.emaitzak2);
-							
-						});
-
-					// Eskualdeen arteko mugak (a !== b)
-					svg.append("path")
-						.datum(topojson.mesh(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena], function(a, b) { return a !== b; }))
-						.attr("d", path)
-						.attr("class", "eskualde-mugak");
-
-					// Kanpo-mugak (a === b)
-					svg.append("path")
-						.datum(topojson.mesh(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena], function(a, b) { return a === b; }))
-						.attr("d", path)
-						.attr("class", "kanpo-mugak");
-
+								// Emaitzarik ez badago...
+								return "#ffffff";
+								
+							})
+							.attr("class", "unitateak")
+							.attr("id", function(d) { return "unitatea_" + d.properties.ad_kod; })
+							.attr("d", path)
+							.on("mouseover", function(d) {
+								
+								d3.select("#unitatea-izena").text(d.properties.iz_euskal);
+								
+								beteTaula(d.properties.emaitzak1, d.properties.emaitzak2);
+								
+								beteDatuak(d.properties.emaitzak2);
+								
+							});
+						
+						// Eskualdeen arteko mugak (a !== b)
+						svg.append("path")
+							.datum(topojson.mesh(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena], function(a, b) { return a !== b; }))
+							.attr("d", path)
+							.attr("class", "eskualde-mugak");
+						
+						// Kanpo-mugak (a === b)
+						svg.append("path")
+							.datum(topojson.mesh(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena], function(a, b) { return a === b; }))
+							.attr("d", path)
+							.attr("class", "kanpo-mugak");
+						
+					});
+					
 				});
-
+				
 			});
 			
 			function beteTaula(datuak1, datuak2) {
@@ -407,7 +438,7 @@
 								
 								aldea = datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak - datuak1.hautagaiak[datuak1.ordena[j]].hautetsiak;
 								
-							// Salbuespena: BILDU -> EH BILDU.
+							// Salbuespena: GEROA BAI -> NA-BAI.
 							} else if (datuak2.hautagaiak[datuak2.ordena[i]].izena === "GEROA BAI" && datuak1.hautagaiak[datuak1.ordena[j]].izena === "NA-BAI") {
 								
 								aldea = datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak - datuak1.hautagaiak[datuak1.ordena[j]].hautetsiak;
