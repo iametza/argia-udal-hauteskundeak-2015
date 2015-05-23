@@ -84,6 +84,32 @@
 			<div id="unitatea-izena"></div>
 			<div id="mapa"></div>
 			<div class="datuak">
+				<table>
+					<tr>
+						<td>Ordua</td>
+						<td class="eguneraketa-ordua"></td>
+					</tr>
+					<tr>
+						<td>Zenbatua</td>
+						<td class="zenbatua"></td>
+					</tr>
+					<tr>
+						<td>Errolda</td>
+						<td class="errolda"></td>
+					</tr>
+					<tr>
+						<td>Abstentzioa</td>
+						<td class="ehuneko-abstentzioa"></td>
+					</tr>
+					<tr>
+						<td>Baliogabeak</td>
+						<td class="ehuneko-baliogabeak"></td>
+					</tr>
+					<tr>
+						<td>Zuriak</td>
+						<td class="ehuneko-zuriak"></td>
+					</tr>
+				</table>
 				<table id="datuak-taula"></table>
 			</div>
 		</div>
@@ -318,7 +344,6 @@
 									
 								}
 								
-								
 							}
 							
 							// Emaitzarik ez badago...
@@ -331,8 +356,10 @@
 						.on("mouseover", function(d) {
 							
 							d3.select("#unitatea-izena").text(d.properties.iz_euskal);
-							console.log(d.properties.emaitzak2);
+							
 							beteTaula(d.properties.emaitzak2, d.properties.emaitzak2);
+							
+							beteDatuak(d.properties.emaitzak2);
 							
 						});
 
@@ -424,6 +451,28 @@
                 
                 $("#datuak-taula").html(katea);
                 
+			}
+			
+			function borobildu2dezimaletara(zenbakia) {
+				
+				return parseFloat(Math.round(zenbakia * 100) / 100).toFixed(2);
+				
+			}
+			
+			function beteDatuak(datuak) {
+				
+				$(".eguneraketa-ordua").text(datuak.ordua);
+				
+				$(".zenbatua").text(datuak.zenbatua);
+				
+				$(".errolda").text(datuak.zentsua);
+				
+				$(".ehuneko-abstentzioa").text(borobildu2dezimaletara(100 * datuak.abstentzioa / datuak.zentsua, 10));
+				
+				$(".ehuneko-baliogabeak").text(borobildu2dezimaletara(100 * datuak.baliogabeak / datuak.hautesleak));
+				
+				$(".ehuneko-zuriak").text(borobildu2dezimaletara(100 * datuak.zuriak / datuak.hautesleak));
+				
 			}
 			
 		</script>
