@@ -10,7 +10,9 @@
 			}
 
 			.unitateak:hover {
-				stroke: #e50000
+				/*stroke: #000000;
+				stroke-width: 1.5px;*/
+				fill: #777;
 			}
 
 			.eskualde-mugak {
@@ -119,25 +121,6 @@
 		<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 		
 		<script>
-            
-            var datuak = {
-				"araba": {
-					"2011": {},
-					"2015": {}
-				},
-				"bizkaia": {
-					"2011": {},
-					"2015": {}
-				},
-				"gipuzkoa": {
-					"2011": {},
-					"2015": {}
-				},
-				"nafarroa": {
-					"2011": {},
-					"2015": {}
-				},
-			}
 			
 			var alderdiak = {
                 "EH BILDU": {
@@ -272,7 +255,7 @@
 				}
 			}
 
-			var hautatutako_herrialdea = "gipuzkoa";
+			var hautatutako_herrialdea = "araba";
 
 			var width = 500,
 				height = 600;
