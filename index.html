@@ -52,6 +52,11 @@
 				margin-top: 10px;
 			}
 			
+			.daturik-ez {
+				text-align: center;
+				margin-top: 10px;
+			}
+			
 			.datuak {
 				display: none; /* Hasieran ezkutuan */
 				width: 580px;
@@ -107,6 +112,7 @@
 		<div id="kontainerra">
 			<div id="mapa"></div>
 			<div class="hasierako-mezua">Pasa sagua herrien gainetik xehetasunak bistaratzeko.</div>
+			<div class="daturik-ez">Daturik ez dago.</div>
 			<div class="datuak">
 				<div id="unitatea-izena"></div>
 				<table class="datuak-taula">
@@ -395,13 +401,25 @@
 								
 								d3.select("#unitatea-izena").text(d.properties.iz_euskal);
 								
-								beteTaula(d.properties.emaitzak1, d.properties.emaitzak2);
-								
-								beteDatuak(d.properties.emaitzak2);
-								
-								$(".hasierako-mezua").hide();
-								
-								$(".datuak").show();
+								if (d.properties.emaitzak2) {
+									
+									beteTaula(d.properties.emaitzak1, d.properties.emaitzak2);
+									
+									beteDatuak(d.properties.emaitzak2);
+									
+									$(".hasierako-mezua").hide();
+									
+									$(".daturik-ez").hide();
+									
+									$(".datuak").show();
+									
+								} else {
+									
+									$(".datuak").hide();
+									
+									$(".daturik-ez").show();
+									
+								}
 								
 							});
 						
