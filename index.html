@@ -1,5 +1,9 @@
 <!doctype html>
 
+<!-- iframearen altuera:
+		Araba: 1000
+-->
+
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -343,6 +347,14 @@
 									e.properties.emaitzak1 = d;
 									
 								}
+								
+								// Trebiñuko konderriko 2 herriak kontutan izan. Trebiñu Araba da!!
+								if ("09" + d.kodea == e.properties.ud_kodea) {
+									
+									e.properties.emaitzak1 = d;
+									
+								}
+								
 							});
 							
 						});
@@ -367,6 +379,14 @@
 									e.properties.emaitzak2 = d;
 									
 								}
+								
+								// Trebiñuko konderriko 2 herriak kontutan izan. Trebiñu Araba da!!
+								if ("09" + d.kodea == e.properties.ud_kodea) {
+									
+									e.properties.emaitzak2 = d;
+									
+								}
+								
 							});
 							
 						});
