@@ -298,7 +298,7 @@
 				}
 			}
 
-			var hautatutako_herrialdea = "nafarroa";
+			var hautatutako_herrialdea = "bizkaia";
 
 			var width = herrialdeak[hautatutako_herrialdea].zabalera,
 				height = herrialdeak[hautatutako_herrialdea].altuera;
@@ -356,6 +356,10 @@
 									
 									e.properties.emaitzak1 = d;
 									
+								// Villaverde de Turtzioz berriz Bizkaia!
+								} else if ("39" + d.kodea == e.properties.ud_kodea) {
+									
+									e.properties.emaitzak1 = d;
 								}
 								
 							});
@@ -388,6 +392,10 @@
 									
 									e.properties.emaitzak2 = d;
 									
+								// Villaverde de Turtzioz berriz Bizkaia!
+								} else if ("39" + d.kodea == e.properties.ud_kodea) {
+									
+									e.properties.emaitzak2 = d;
 								}
 								
 							});
