@@ -150,26 +150,100 @@
 
 		<script>
             
-            var alderdiak = {
-                "BILDU": {
-                    kolorea: "#b3c801"
+            var datuak = {
+				"araba": {
+					"2011": {},
+					"2015": {}
+				},
+				"bizkaia": {
+					"2011": {},
+					"2015": {}
+				},
+				"gipuzkoa": {
+					"2011": {},
+					"2015": {}
+				},
+				"nafarroa": {
+					"2011": {},
+					"2015": {}
+				},
+			}
+			
+			var alderdiak = {
+                "EH BILDU": {
+					kolorea: "#b3c801",
+                    irudia: "img/ehbildu.jpg"
                 },
                 "EAJ-PNV": {
-                    kolorea: "#008336"
+                    kolorea: "#008336",
+					irudia: "img/eaj-pnv.png"
                 },
-                "PSE-EE/PSOE": {
-                    kolorea: "#ed1b24"
+                "PSE-EE": {
+					kolorea: "#ed1b24",
+                    irudia: "img/pse-ee.gif"
                 },
                 "PP": {
-                    kolorea: "#ed1b24"
-                }
+					izen_laburra: "PP",
+                    irudia: "img/pp.png"
+                },
+				"UPYD": {
+					kolorea: "#E4007D",
+					irudia: "img/upyd.png"
+				},
+				"CIUDADANOS": {
+					kolorea: "#F78934",
+					irudia: "img/ciudadanos.jpg"
+				},
+				"PODEMOS": {
+					kolorea: "#6B1F5F",
+					irudia: "img/podemos.png"
+				},
+				"IRABAZI": {
+					kolorea: "#4B4B49",
+					irudia: "img/irabazi.png"
+				},
+				"GEROA BAI": {
+					irudia: "img/geroabai.jpg"
+				},
+				"UPN": {
+					irudia: "img/upn.png"
+				},
+				"PSN": {
+					irudia: "img/psn.png"
+				},
+				"RCN-NOK": {
+					irudia: "img/rcn-nok.png"
+				},
+				"I-E": {
+					irudia: "img/ezkerra.jpg"
+				},
+				"SAIn": {
+					irudia: "img/sain.png"
+				},
+				"PACMA": {
+					irudia: "img/pacma.jpeg"
+				},
+				"LN": {
+					irudia: "img/ln.png"
+				},
+				"EQUO": {
+					irudia: "img/equo.jpeg"
+				},
+				"IKUNE": {
+					irudia: "img/ikune.png"
+				},
+				"VOX": {
+					irudia: "img/vox.jpg"
+				}
             }
             
 			var herrialdeak = {
-				"GIPUZKOA": {
+				"gipuzkoa": {
 					th: "GIPUZKOA",
 					kodea: 20,
+					datuakJSON: "datuak/gipuzkoa-udalak-2015.json",
 					json_izena: "udalerriak-gipuzkoa",
+					topoJSON: "topoJSON/udalerriak-gipuzkoa.json",
 					proiekzioa: {
 						erdia: {
 							lat: -2.17,
@@ -179,10 +253,12 @@
 					}
 
 				},
-				"BIZKAIA": {
+				"bizkaia": {
 					th: "BIZKAIA",
 					kodea: 48,
+					datuakJSON: "datuak/bizkaia-udalak-2015.json",
 					json_izena: "udalerriak-bizkaia",
+					topoJSON: "topoJSON/udalerriak-bizkaia.json",
 					proiekzioa: {
 						erdia: {
 							lat: -2.93,
@@ -191,10 +267,12 @@
 						eskala: 27100
 					}
 				},
-				"ARABA-ÁLAVA": {
+				"araba": {
 					th: "ARABA-ÁLAVA",
 					kodea: "01",
+					datuakJSON: "datuak/araba-udalak-2015.json",
 					json_izena: "udalerriak-araba",
+					topoJSON: "topoJSON/udalerriak-araba.json",
 					proiekzioa: {
 						erdia: {
 							lat: -2.76,
@@ -203,10 +281,12 @@
 						eskala: 27000
 					}
 				},
-				"NAFARROA": {
+				"nafarroa": {
 					th: "NAFARROA",
 					kodea: "31",
+					datuakJSON: "datuak/nafarroa-udalak-2015.json",
 					json_izena: "udalerriak-nafarroa",
+					topoJSON: "topoJSON/udalerriak-nafarroa.json",
 					proiekzioa: {
 						erdia: {
 							lat: -1.615,
@@ -217,7 +297,7 @@
 				}
 			}
 
-			var hautatutako_herrialdea = "NAFARROA";
+			var hautatutako_herrialdea = "gipuzkoa";
 
 			var width = 500,
 				height = 600;
@@ -239,12 +319,12 @@
 			var aurreko_y = [];
 
 			//d3.json("datuak/" + herrialdeak[hautatutako_herrialdea].json_izena + ".json", function(error, emaitzak) {
-			d3.json("datuak/udalerriak-gipuzkoa.json", function(error, emaitzak) {
+			d3.json(herrialdeak[hautatutako_herrialdea].datuakJSON, function(error, emaitzak) {
 				console.log(emaitzak);
 				
 				if (error) return console.error(error);
 				
-				d3.json(herrialdeak[hautatutako_herrialdea].json_izena + ".json", function(error, eh) {
+				d3.json(herrialdeak[hautatutako_herrialdea].topoJSON, function(error, eh) {
 	
 					if (error) return console.error(error);
 
@@ -254,7 +334,7 @@
 					// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
 					// i: indizea
 					emaitzak.udalerriak.forEach(function(d, i) {
-
+						
 						// e: Object { type="Feature",  properties={...},  geometry={...}}
 						// j. indizea
 						topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
@@ -266,24 +346,9 @@
 							}
 							
 							if (herrialdeak[hautatutako_herrialdea].kodea + d.kodea === e.properties.ud_kodea) {
-								
+								console.log(d.kodea);
 								// Beharrezko datuak garbitu eta prestatu.
-								e.properties.emaitzak = {
-									//"abstentzioak": d["Abstenciones"],
-									"zuriak": d["zuriak"],
-									"baliogabeak": d["baliogabeak"],
-									"errolda": d["zentsua"],
-									"hautesleak": d["hautesleak"],
-									//"botoak_alderdiei": d["Votos Cand."],
-									"baliozkoak": d["baliozkoak"],
-									"alderdiak": d["emaitzak"]
-								};
-								
-								e.properties.emaitzak.alderdiak.sort(function(a, b) {
-									
-									return parseInt(a.botoak, 10) < parseInt(b.botoak, 10);
-									
-								});
+								e.properties.emaitzak = d;
 								
 							}
 						});
