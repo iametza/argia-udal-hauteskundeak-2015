@@ -42,22 +42,31 @@
 				border: 1px solid black;
 			}
 
-			#datuak {
+			.datuak {
 				left: 450px;
 				position: absolute;
 				top: 194px;
 			}
-
-			#datuak table {
-			    border-collapse: collapse;
+			
+			.datuak .irudia img {
+				width: 30px;
 			}
-
-			#datuak td, #datuak th {
-			    border: 1px solid #999;
-			    padding: 0.5rem;
-			    text-align: left;
+			
+			.datuak .botoak {
+				text-align: right;
+				width: 60px;
 			}
-
+			
+			.datuak .ahulkiak {
+				text-align: right;
+				width: 30px;
+			}
+			
+			.datuak .aldea {
+				text-align: right;
+				width: 50px;
+			}
+			
 			#unitatea-izena {
 				font-size: 20px;
 				font-weight: bold;
@@ -67,41 +76,6 @@
 				top: 160px;
 			}
 
-			#barrak {
-				display: inline-block;
-			    left: 600px;
-			    position: absolute;
-			    top: 330px;
-			}
-
-			#logo-ehbildu {
-			    left: 613px;
-			    position: absolute;
-			    top: 531px;
-			    width: 48px;
-			}
-
-			#logo-eaj-pnv {
-				left: 691px;
-			    position: absolute;
-			    top: 534px;
-			    width: 48px;
-			}
-
-			#logo-pse-ee {
-				left: 769px;
-			    position: absolute;
-			    top: 537px;
-			    width: 38px;
-			}
-
-			#logo-pp {
-				left: 844px;
-				position: absolute;
-				top: 537px;
-				width: 38px;
-			}
-
 		</style>
 	</head>
 
@@ -109,45 +83,15 @@
 		<div id="kontainerra">
 			<div id="unitatea-izena"></div>
 			<div id="mapa"></div>
-			<div id="barrak"></div>
-			<img id="logo-ehbildu" src="img/ehbildu.jpg" />
-			<img id="logo-eaj-pnv" src="img/eaj-pnv.png" />
-			<img id="logo-pse-ee" src="img/pse-ee.gif" />
-			<img id="logo-pp" src="img/pp.png" />
-			<div id="datuak">
-				<table id="datuak-taula">
-                    <!--<tr>
-                        <td>&nbsp;</td>
-                        <td>2007</td>
-                        <td>2011</td>
-                    </tr>
-                    <tr>
-                        <td>EH Bildu</td>
-                        <td id="ehbildu-1"></td>
-                        <td id="ehbildu-2"></td>
-                    </tr>
-                    <tr>
-                        <td>EAJ-PNV</td>
-                        <td id="eaj-pnv-1"></td>
-                        <td id="eaj-pnv-2"></td>
-                    </tr>
-                    <tr>
-                        <td>PSE-EE</td>
-                        <td id="pse-ee-1"></td>
-                        <td id="pse-ee-2"></td>
-                    </tr>
-                    <tr>
-                        <td>PP</td>
-                        <td id="pp-1"></td>
-                        <td id="pp-2"></td>
-                    </tr>-->
-                </table>
+			<div class="datuak">
+				<table id="datuak-taula"></table>
 			</div>
 		</div>
 
 		<script src="http://d3js.org/d3.v3.min.js"></script>
 		<script src="http://d3js.org/topojson.v1.min.js"></script>
-
+		<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+		
 		<script>
             
             var datuak = {
@@ -363,8 +307,6 @@
 							// Herriko alderdi bozkatuenaren kolorea.
 							if (d.properties.emaitzak2) {
 								
-								console.log(d.properties.emaitzak2);
-								
 								// Hautagaiarentzat kolore bat definitu badugu...
 								if (alderdiak[d.properties.emaitzak2.ordena[0]]) {
 									
@@ -379,6 +321,7 @@
 								
 							}
 							
+							// Emaitzarik ez badago...
 							return "#ffffff";
 							
 						})
@@ -389,7 +332,7 @@
 							
 							d3.select("#unitatea-izena").text(d.properties.iz_euskal);
 							
-							beteTaula(d.properties.emaitzak2);
+							beteTaula(d.properties.emaitzak2, d.properties.emaitzak2);
 							
 						});
 
@@ -409,21 +352,78 @@
 
 			});
 			
-			function beteTaula(datuak) {
-                
-                var katea = "";
-                console.log(datuak.alderdiak);
-                for (var i = 0; i < datuak.alderdiak.length; i++) {
+			function beteTaula(datuak1, datuak2) {
+				
+				var katea = "";
+				
+				var aldea = "";
+				
+				var irudia = "";
+				
+                for (var i = 0; i < datuak2.ordena.length; i++) {
                     
                     // Botoak lortu dituzten alderdiak bakarrik bistaratu.
-                    if (datuak.alderdiak[i].botoak > 0) {
-                        katea = katea + "<tr><td>" + datuak.alderdiak[i].izena + "</td><td>" + datuak.alderdiak[i].botoak + "</td></tr>";
+                    if (datuak2.hautagaiak[datuak2.ordena[i]].botoak > 0) {
+						
+						aldea = "";
+						
+						for (var j = 0; j < datuak1.ordena.length; j++) {
+							
+							if (datuak2.hautagaiak[datuak2.ordena[i]].izena === datuak1.hautagaiak[datuak1.ordena[j]].izena) {
+								
+								aldea = datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak - datuak1.hautagaiak[datuak1.ordena[j]].hautetsiak;
+								
+							}
+							
+							// Salbuespena: BILDU -> EH BILDU.
+							if (datuak2.hautagaiak[datuak2.ordena[i]].izena === "EH BILDU" && datuak1.hautagaiak[datuak1.ordena[j]].izena === "BILDU") {
+								
+								aldea = datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak - datuak1.hautagaiak[datuak1.ordena[j]].hautetsiak;
+								
+							// Salbuespena: BILDU -> EH BILDU.
+							} else if (datuak2.hautagaiak[datuak2.ordena[i]].izena === "GEROA BAI" && datuak1.hautagaiak[datuak1.ordena[j]].izena === "NA-BAI") {
+								
+								aldea = datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak - datuak1.hautagaiak[datuak1.ordena[j]].hautetsiak;
+								
+							}
+							
+						}
+						
+						// Bi hauteskundeetako hautagaiak ez badatoz bat...
+						if (aldea === "") {
+							
+							aldea = "-";
+							
+						} else if (aldea > 0) {
+							
+							aldea = "▲" + aldea;
+							
+						} else if (aldea < 0) {
+							
+							aldea = "▼" + Math.abs(aldea);
+							
+						} else {
+							
+							aldea = "=";
+							
+						}
+						
+						if (alderdiak[datuak2.hautagaiak[datuak2.ordena[i]].izena]) {
+							
+							irudia = alderdiak[datuak2.hautagaiak[datuak2.ordena[i]].izena].irudia;
+							
+						}
+						
+                        katea = katea + "<tr><td class='irudia'><img src='" + irudia + "' /></td><td class='botoak'>" + datuak2.hautagaiak[datuak2.ordena[i]].botoak + "</td><td class='ahulkiak'>" + datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak + "</td><td class='aldea'>" + aldea + "</td></tr>";
+						
                     }
+						
                 }
                 
-                document.getElementById("datuak-taula").innerHTML = katea;
+                $("#datuak-taula").html(katea);
                 
 			}
+			
 		</script>
 	</body>
 </html>
