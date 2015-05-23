@@ -331,7 +331,7 @@
 						.on("mouseover", function(d) {
 							
 							d3.select("#unitatea-izena").text(d.properties.iz_euskal);
-							
+							console.log(d.properties.emaitzak2);
 							beteTaula(d.properties.emaitzak2, d.properties.emaitzak2);
 							
 						});
@@ -410,11 +410,11 @@
 						
 						if (alderdiak[datuak2.hautagaiak[datuak2.ordena[i]].izena]) {
 							
-							irudia = alderdiak[datuak2.hautagaiak[datuak2.ordena[i]].izena].irudia;
+							irudia = "<img src='" + alderdiak[datuak2.hautagaiak[datuak2.ordena[i]].izena].irudia + "' />";
 							
 						}
 						
-                        katea = katea + "<tr><td class='irudia'><img src='" + irudia + "' /></td><td class='botoak'>" + datuak2.hautagaiak[datuak2.ordena[i]].botoak + "</td><td class='ahulkiak'>" + datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak + "</td><td class='aldea'>" + aldea + "</td></tr>";
+                        katea = katea + "<tr><td class='irudia'>" + irudia + "</td><td class='botoak'>" + datuak2.hautagaiak[datuak2.ordena[i]].botoak + "</td><td class='ahulkiak'>" + datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak + "</td><td class='aldea'>" + aldea + "</td></tr>";
 						
                     }
 						
