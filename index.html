@@ -48,8 +48,8 @@
 				top: 194px;
 			}
 			
-			.datuak .irudia img {
-				width: 30px;
+			.datuak .izena {
+				
 			}
 			
 			.datuak .botoak {
@@ -358,7 +358,7 @@
 				
 				var aldea = "";
 				
-				var irudia = "";
+				var izena = "";
 				
                 for (var i = 0; i < datuak2.ordena.length; i++) {
                     
@@ -408,7 +408,15 @@
 							
 						}
 						
-                        katea = katea + "<tr><td class='irudia'>" + datuak2.ordena[i] + "</td><td class='botoak'>" + datuak2.hautagaiak[datuak2.ordena[i]].botoak + "</td><td class='ahulkiak'>" + datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak + "</td><td class='aldea'>" + aldea + "</td></tr>";
+						if (datuak2.ordena[i].length > 12) {
+							izena = datuak2.ordena[i].substring(0, 12) + "...";
+						} else {
+							izena = datuak2.ordena[i];
+						}
+						
+						// Taulako errenkada prestatu.
+						// Izena luzeegia bada moztu egingo dugu.
+                        katea = katea + "<tr><td class='izena' title='" + datuak2.ordena[i] + "'>" + izena + "</td><td class='botoak'>" + datuak2.hautagaiak[datuak2.ordena[i]].botoak + "</td><td class='ahulkiak'>" + datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak + "</td><td class='aldea'>" + aldea + "</td></tr>";
 						
                     }
 						
