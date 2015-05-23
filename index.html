@@ -408,17 +408,7 @@
 							
 						}
 						
-						if (alderdiak[datuak2.hautagaiak[datuak2.ordena[i]].izena]) {
-							
-							irudia = "<img src='" + alderdiak[datuak2.hautagaiak[datuak2.ordena[i]].izena].irudia + "' />";
-							
-						} else {
-							
-							irudia = "";
-							
-						}
-						
-                        katea = katea + "<tr><td class='irudia'>" + irudia + "</td><td class='botoak'>" + datuak2.hautagaiak[datuak2.ordena[i]].botoak + "</td><td class='ahulkiak'>" + datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak + "</td><td class='aldea'>" + aldea + "</td></tr>";
+                        katea = katea + "<tr><td class='irudia'>" + datuak2.ordena[i] + "</td><td class='botoak'>" + datuak2.hautagaiak[datuak2.ordena[i]].botoak + "</td><td class='ahulkiak'>" + datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak + "</td><td class='aldea'>" + aldea + "</td></tr>";
 						
                     }
 						
