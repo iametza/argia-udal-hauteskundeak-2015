@@ -53,6 +53,7 @@
 			}
 			
 			.daturik-ez {
+				display: none; /* Hasieran ezkutuan */
 				text-align: center;
 				margin-top: 10px;
 			}
@@ -112,9 +113,9 @@
 		<div id="kontainerra">
 			<div id="mapa"></div>
 			<div class="hasierako-mezua">Pasa sagua herrien gainetik xehetasunak bistaratzeko.</div>
+			<div id="unitatea-izena"></div>
 			<div class="daturik-ez">Daturik ez dago.</div>
 			<div class="datuak">
-				<div id="unitatea-izena"></div>
 				<table class="datuak-taula">
 					<tr>
 						<td>Ordua</td>
@@ -399,7 +400,15 @@
 							.attr("d", path)
 							.on("mouseover", function(d) {
 								
-								d3.select("#unitatea-izena").text(d.properties.iz_euskal);
+								if (d.properties.iz_euskal) {
+									
+									$("#unitatea-izena").text(d.properties.iz_euskal);
+									
+								} else {
+									
+									$("#unitatea-izena").text(d.properties.ud_iz_e);
+									
+								}
 								
 								if (d.properties.emaitzak2) {
 									
