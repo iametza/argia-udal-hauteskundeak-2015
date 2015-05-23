@@ -42,20 +42,33 @@
 
 			#mapa {
 				border: 1px solid black;
-				left: 50px;
-				position: absolute;
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+				width: 585px;
+			}
+			
+			.datuak {
+				width: 585px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			#unitatea-izena {
+				font-size: 20px;
+				font-weight: bold;
+				text-align: center;
+				margin-bottom: 10px;
 			}
 			
 			.datuak-taula {
-				left: 100px;
-				position: absolute;
-				top: 400px;
+				float: left;
+				margin-left: 75px;
 			}
 			
 			.emaitzak-taula {
-				left: 400px;
-				position: absolute;
-				top: 400px;
+				float: right;
+				margin-right: 75px;
 			}
 			
 			.emaitzak-taula .izena {
@@ -76,50 +89,43 @@
 				text-align: right;
 				width: 50px;
 			}
-			
-			#unitatea-izena {
-				font-size: 20px;
-				font-weight: bold;
-				left: 290px;
-				position: absolute;
-				text-align: center;
-				top: 350px;
-			}
 
 		</style>
 	</head>
 
 	<body>
 		<div id="kontainerra">
-			<div id="unitatea-izena"></div>
 			<div id="mapa"></div>
-			<table class="datuak-taula">
-				<tr>
-					<td>Ordua</td>
-					<td class="eguneraketa-ordua"></td>
-				</tr>
-				<tr>
-					<td>Zenbatua</td>
-					<td class="zenbatua"></td>
-				</tr>
-				<tr>
-					<td>Errolda</td>
-					<td class="errolda"></td>
-				</tr>
-				<tr>
-					<td>Abstentzioa</td>
-					<td class="ehuneko-abstentzioa"></td>
-				</tr>
-				<tr>
-					<td>Baliogabeak</td>
-					<td class="ehuneko-baliogabeak"></td>
-				</tr>
-				<tr>
-					<td>Zuriak</td>
-					<td class="ehuneko-zuriak"></td>
-				</tr>
-			</table>
-			<table class="emaitzak-taula"></table>
+			<div class="datuak">
+				<div id="unitatea-izena"></div>
+				<table class="datuak-taula">
+					<tr>
+						<td>Ordua</td>
+						<td class="eguneraketa-ordua"></td>
+					</tr>
+					<tr>
+						<td>Zenbatua</td>
+						<td class="zenbatua"></td>
+					</tr>
+					<tr>
+						<td>Errolda</td>
+						<td class="errolda"></td>
+					</tr>
+					<tr>
+						<td>Abstentzioa</td>
+						<td class="ehuneko-abstentzioa"></td>
+					</tr>
+					<tr>
+						<td>Baliogabeak</td>
+						<td class="ehuneko-baliogabeak"></td>
+					</tr>
+					<tr>
+						<td>Zuriak</td>
+						<td class="ehuneko-zuriak"></td>
+					</tr>
+				</table>
+				<table class="emaitzak-taula"></table>
+			</div>
 		</div>
 
 		<script src="http://d3js.org/d3.v3.min.js"></script>
