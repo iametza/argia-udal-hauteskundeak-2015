@@ -94,6 +94,13 @@
 				margin-right: 50px;
 			}
 			
+			.emaitzak-taula .kolorea {
+				display: inline-block;
+				height: 15px;
+				margin-right: 5px;
+				width: 15px;
+			}
+			
 			.emaitzak-taula .izena {
 				width: 80px;
 			}
@@ -490,6 +497,8 @@
 				
 				var izena = "";
 				
+				var kolorea = "#cccccc";
+				
                 for (var i = 0; i < datuak2.ordena.length; i++) {
                     
                     // Botoak lortu dituzten alderdiak bakarrik bistaratu.
@@ -544,9 +553,20 @@
 							izena = datuak2.ordena[i];
 						}
 						
+						
+						if (alderdiak[datuak2.ordena[i]] && alderdiak[datuak2.ordena[i]].kolorea) {
+							
+							kolorea = alderdiak[datuak2.ordena[i]].kolorea;
+							
+						} else {
+							
+							kolorea = "#cccccc";
+							
+						}
+						
 						// Taulako errenkada prestatu.
 						// Izena luzeegia bada moztu egingo dugu.
-                        katea = katea + "<tr><td class='izena' title='" + datuak2.ordena[i] + "'>" + izena + "</td><td class='botoak'>" + datuak2.hautagaiak[datuak2.ordena[i]].botoak + "</td><td class='ahulkiak'>" + datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak + "</td><td class='aldea'>" + aldea + "</td></tr>";
+                        katea = katea + "<tr><td class='kolorea' style='background-color:" + kolorea + "'>&nbsp;</td><td class='izena' title='" + datuak2.ordena[i] + "'>" + izena + "</td><td class='botoak'>" + datuak2.hautagaiak[datuak2.ordena[i]].botoak + "</td><td class='ahulkiak'>" + datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak + "</td><td class='aldea'>" + aldea + "</td></tr>";
 						
                     }
 						
