@@ -159,8 +159,16 @@
 		<script>
 			
 			(function() {
-					
-				var alderdiak = {
+				
+				// Zein herrialdetako datuak bistaratu nahi diren hemen zehazten da:
+				// Aukerak:
+				//		"araba"
+				// 		"bizkaia"
+				//		"gipuzkoa"
+				//		"nafarroa"
+				var hautatutako_herrialdea = "nafarroa";
+				
+				var hautagaiak = {
 					"EH BILDU": {
 						kolorea: "#b3c801",
 						irudia: "img/ehbildu.jpg"
@@ -299,58 +307,65 @@
 						zabalera: 680
 					}
 				}
-	
-				var hautatutako_herrialdea = "nafarroa";
-	
+				
+				// Maparen svg elementuaren neurriak.
 				var width = herrialdeak[hautatutako_herrialdea].zabalera,
 					height = herrialdeak[hautatutako_herrialdea].altuera;
-	
+				
+				// Maparen proiekzioaren xehetasunak.
 				var projection = d3.geo.mercator()
 					.center([herrialdeak[hautatutako_herrialdea].proiekzioa.erdia.lat, herrialdeak[hautatutako_herrialdea].proiekzioa.erdia.lng])
 					.scale(herrialdeak[hautatutako_herrialdea].proiekzioa.eskala)
 					.translate([width / 2, height / 2]);
-	
+				
+				// Maparen bidearen generatzailea.
 				var path = d3.geo.path()
 					.projection(projection);
-	
+				
+				// Maparen svg elementua DOMera gehitu eta neurriak ezarri.
 				var svg = d3.select("#mapa").append("svg")
 					.attr("width", width)
 					.attr("height", height);
-	
+				
+				// Hautatutako herrialdeko 2011 hauteskundeen datuak irakurri dagokion JSONetik.
 				d3.json(herrialdeak[hautatutako_herrialdea].datuakJSON_1, function(error, emaitzak1) {
 					
+					if (error) {
+						return console.error(error);
+					}
+					
+					// Hautatutako herrialdeko 2015 hauteskundeen datuak irakurri dagokion JSONetik.
 					d3.json(herrialdeak[hautatutako_herrialdea].datuakJSON_2, function(error, emaitzak2) {
 						
-						console.log(emaitzak2);
+						if (error) {
+							return console.error(error);
+						}
 						
-						if (error) return console.error(error);
-						
+						// Hautatutako herrialdearen datu geografikoak irakurri dagokion topoJSONetik.
 						d3.json(herrialdeak[hautatutako_herrialdea].topoJSON, function(error, eh) {
 							
-							if (error) return console.error(error);
+							if (error) {
+								return console.error(error);
+							}
 							
 							// Emaitzak eta topoJSON-a bateratzeko ideia hemendik hartu dut, behar bada badago modu hobe bat.
 							// http://stackoverflow.com/questions/22994316/how-to-reference-csv-alongside-geojson-for-d3-rollover
 							
-							// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
+							// 2011ko hauteskundeetako udalerri bakoitzeko datuak dagokion mapako elementuarekin lotu.
+							// d: Emaitzen arrayko udalerri bakoitzaren propietateak biltzen dituen objektua.
 							// i: indizea
 							emaitzak1.udalerriak.forEach(function(d, i) {
 								
-								// e: Object { type="Feature",  properties={...},  geometry={...}}
-								// j. indizea
+								// e: Datu geografikoetako udalerriaren propietateak
+								// j: indizea
 								topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
 									
+									// Emaitzetako herriaren kodeari 0ak gehitu beharrezkoa denean,
+									// gero maparen udalerrien kodearekin konparatu ahal izateko.
 									if (d.kodea.toString().length === 1) {
 										d.kodea = "00" + d.kodea;
 									} else if (d.kodea.toString().length === 2) {
 										d.kodea = "0" + d.kodea;
-									}
-									
-									if (herrialdeak[hautatutako_herrialdea].kodea + d.kodea === e.properties.ud_kodea) {
-										
-										// Beharrezko datuak garbitu eta prestatu.
-										e.properties.emaitzak1 = d;
-										
 									}
 									
 									// Trebiñuko konderriko 2 herriak kontutan izan. Trebiñu Araba da!!
@@ -362,31 +377,32 @@
 									} else if ("39" + d.kodea == e.properties.ud_kodea) {
 										
 										e.properties.emaitzak1 = d;
+										
+									// Gainerako euskal udalerriak.
+									} else if (herrialdeak[hautatutako_herrialdea].kodea + d.kodea === e.properties.ud_kodea) {
+										
+										// Udalerri honetako 2011ko emaitzak mapako bere elementuarekin lotu.
+										e.properties.emaitzak1 = d;
+										
 									}
 									
 								});
 								
 							});
 							
-							// d: Object { TH="GIPUZKOA",  Eskualde-Kodea="1",  Udalherri-Kodea="040",  gehiago...}
+							// 2015ko hauteskundeetako udalerri bakoitzeko datuak dagokion mapako elementuarekin lotu.
+							// d: Emaitzen arrayko udalerri bakoitzaren propietateak biltzen dituen objektua.
 							// i: indizea
 							emaitzak2.udalerriak.forEach(function(d, i) {
 								
-								// e: Object { type="Feature",  properties={...},  geometry={...}}
-								// j. indizea
+								// e: Datu geografikoetako udalerriaren propietateak
+								// j: indizea
 								topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features.forEach(function(e, j) {
 									
 									if (d.kodea.toString().length === 1) {
 										d.kodea = "00" + d.kodea;
 									} else if (d.kodea.toString().length === 2) {
 										d.kodea = "0" + d.kodea;
-									}
-									
-									if (herrialdeak[hautatutako_herrialdea].kodea + d.kodea === e.properties.ud_kodea) {
-										
-										// Beharrezko datuak garbitu eta prestatu.
-										e.properties.emaitzak2 = d;
-										
 									}
 									
 									// Trebiñuko konderriko 2 herriak kontutan izan. Trebiñu Araba da!!
@@ -398,23 +414,32 @@
 									} else if ("39" + d.kodea == e.properties.ud_kodea) {
 										
 										e.properties.emaitzak2 = d;
+										
+									// Gainerako euskal udalerriak
+									} else if (herrialdeak[hautatutako_herrialdea].kodea + d.kodea === e.properties.ud_kodea) {
+										
+										// Udalerri honetako 2015eko emaitzak mapako bere elementuarekin lotu.
+										e.properties.emaitzak2 = d;
+										
 									}
 									
 								});
 								
 							});
 							
+							// Udalerri guztiak.
 							svg.selectAll(".unitateak")
 								.data(topojson.feature(eh, eh.objects[herrialdeak[hautatutako_herrialdea].json_izena]).features)
 								.enter().append("path")
 								.attr("fill", function(d) {
-									// Herriko alderdi bozkatuenaren kolorea.
+									
+									// Herriko hautagai bozkatuenaren kolorea.
 									if (d.properties.emaitzak2) {
 										
 										// Hautagaiarentzat kolore bat definitu badugu...
-										if (alderdiak[d.properties.emaitzak2.ordena[0]]) {
+										if (hautagaiak[d.properties.emaitzak2.ordena[0]]) {
 											
-											return alderdiak[d.properties.emaitzak2.ordena[0]].kolorea;
+											return hautagaiak[d.properties.emaitzak2.ordena[0]].kolorea;
 											
 										} else {
 											
@@ -433,6 +458,8 @@
 								.attr("d", path)
 								.on("mouseover", function(d) {
 									
+									// Elementu geografiko guztiek ez daukate iz_euskal propietatea,
+									// ez badauka ud_iz_e erabili.
 									if (d.properties.iz_euskal) {
 										
 										$("#unitatea-izena").text(d.properties.iz_euskal);
@@ -483,6 +510,9 @@
 					
 				});
 				
+				// Udalerri bateko hautagaien emaitzen datuak bistaratu.
+				// datuak1: 2011ko emaitzak.
+				// datuak2: 2015eko emaitzak.
 				function beteTaula(datuak1, datuak2) {
 					
 					var katea = "";
@@ -495,7 +525,7 @@
 					
 					for (var i = 0; i < datuak2.ordena.length; i++) {
 						
-						// Botoak lortu dituzten alderdiak bakarrik bistaratu.
+						// Botoak lortu dituzten hautagaiak bakarrik bistaratu.
 						if (datuak2.hautagaiak[datuak2.ordena[i]].botoak > 0) {
 							
 							aldea = "";
@@ -522,36 +552,43 @@
 								
 							}
 							
-							// Bi hauteskundeetako hautagaiak ez badatoz bat...
+							// Bi hauteskundeen artean hautagaien hautetsi kopuruan egondako aldaketaren zeinua (igo, jaitsi...) bistaratzeko prestatu.
 							if (aldea === "") {
 								
+								// Hautagaia ez zen aurkeztu aurreko hauteskundeetan
+								// edo izena ez dator bat (izenen normalizazioarekin arazoak izan ditugu).
 								aldea = "-";
 								
 							} else if (aldea > 0) {
 								
+								// Hautagaiaren hautetsi kopurua igo da.
 								aldea = "&#9650;" + aldea;
 								
 							} else if (aldea < 0) {
 								
+								// Hautagaiaren hautetsi kopurua jaitsi da.
 								aldea = "&#9660;" + Math.abs(aldea);
 								
 							} else {
 								
+								// Hautagaiak hautetsi kopuru berdina atera du.
 								aldea = "=";
 								
 							}
 							
+							// // Izena luzeegia bada moztu egingo dugu.
 							if (datuak2.ordena[i].length > 20) {
 								izena = datuak2.ordena[i].substring(0, 18) + "...";
 							} else {
 								izena = datuak2.ordena[i];
 							}
 							
-							
-							if (alderdiak[datuak2.ordena[i]] && alderdiak[datuak2.ordena[i]].kolorea) {
+							// Hautagaiak kolorea badu...
+							if (hautagaiak[datuak2.ordena[i]] && hautagaiak[datuak2.ordena[i]].kolorea) {
 								
-								kolorea = alderdiak[datuak2.ordena[i]].kolorea;
+								kolorea = hautagaiak[datuak2.ordena[i]].kolorea;
 								
+							// Bestela kolore neutro bat erabili.
 							} else {
 								
 								kolorea = "#cccccc";
@@ -559,7 +596,6 @@
 							}
 							
 							// Taulako errenkada prestatu.
-							// Izena luzeegia bada moztu egingo dugu.
 							katea = katea + "<tr><td class='kolorea' style='background-color:" + kolorea + "'>&nbsp;</td><td class='izena' title='" + datuak2.ordena[i] + "'>" + izena + "</td><td class='botoak'>" + datuak2.hautagaiak[datuak2.ordena[i]].botoak + "</td><td class='ahulkiak'>" + datuak2.hautagaiak[datuak2.ordena[i]].hautetsiak + "</td><td class='aldea'>" + aldea + "</td></tr>";
 							
 						}
@@ -576,6 +612,7 @@
 					
 				}
 				
+				// Udalerri bateko 2015ko hauteskundeetako datu orokorrak bistaratu.
 				function beteDatuak(datuak) {
 					
 					$(".eguneraketa-ordua").text(datuak.ordua);
