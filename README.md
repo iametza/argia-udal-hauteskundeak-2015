@@ -16,3 +16,18 @@ Hauteskundeetako datuen JSON fitxategiek eta datu geografikoen topoJSON fitxateg
 <p align="center">
   <img src="pantaila-argazkiak/araba.png?raw=true" alt="Arabako bisualizazioaren pantaila-argazkia"/>
 </p>
+
+### Bizkaia
+<p align="center">
+  <img src="pantaila-argazkiak/bizkaia.png?raw=true" alt="Bizkaiko bisualizazioaren pantaila-argazkia"/>
+</p>
+
+### Gipuzkoa
+<p align="center">
+  <img src="pantaila-argazkiak/gipuzkoa.png?raw=true" alt="Gipuzkoako bisualizazioaren pantaila-argazkia"/>
+</p>
+
+### Nafarroa
+<p align="center">
+  <img src="pantaila-argazkiak/nafarroa.png?raw=true" alt="Nafarroako bisualizazioaren pantaila-argazkia"/>
+</p>
