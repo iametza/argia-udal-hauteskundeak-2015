@@ -14,5 +14,5 @@ Hauteskundeetako datuen JSON fitxategiek eta datu geografikoen topoJSON fitxateg
 
 ### Araba
 <p align="center">
-  <img src="https://github.com/iametza/argia-udal-hauteskundeak-2015/blob/master/araba.png?raw=true" alt="Arabako bisualizazioaren pantaila-argazkia"/>
+  <img src="pantaila-argazkiak/araba.png?raw=true" alt="Arabako bisualizazioaren pantaila-argazkia"/>
 </p>
