@@ -1,5 +1,15 @@
 # ARGIA.eus - 2015eko maiatzaren 24ko Araba, Bizkaia, Gipuzkoa eta Nafarroa Garaiko udal hauteskundeen emaitzen bisualizazioa
 
+ARGIA.eus-en argitaratuak:
+
+Araba: http://www.argia.eus/albistea/arabako-emaitzak
+
+Bizkaia: http://www.argia.eus/albistea/bizkaiko-emaitzak
+
+Gipuzkoa: http://www.argia.eus/albistea/eaj-nagusi-donostian
+
+Nafarroa: http://www.argia.eus/albistea/nafarroako-emaitzak
+
 ## Eskertzak
 * Gaindegia - http://euskalgeo.net/ webguneko shapefile-etan oinarritu gara mapetako topoJSONak sortzeko.
 * D3.js liburutegi bikainaren egileei http://d3js.org/
